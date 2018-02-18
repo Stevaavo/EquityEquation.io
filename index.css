@@ -74,7 +74,7 @@ td {
 /* Customize container */
 @media (min-width: 48em) {
   .container {
-    max-width: 80rem;
+    max-width: 100rem;
   }
 }
 .container-narrow > hr {
