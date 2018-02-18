@@ -28,10 +28,10 @@ var resetToDefaultLink = document.querySelector('#resetToDefaultLink');
 
 // This function causes an element to "pulse," and is used when the javascript fills in valus (after calculating or resetting parameters to defaults)
 function pulseElement(elementToBePulsed) {
-	elementToBePulsed.classList.add('pulse');
+	elementToBePulsed.classList.add('pulseOn');
 	setTimeout(
 		function() {
-			elementToBePulsed.classList.remove('pulse');
+			elementToBePulsed.classList.remove('pulseOn');
 		}, 2000);
 }
 

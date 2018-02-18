@@ -148,43 +148,23 @@ td {
 
 
 
-/* This defines the "pulse" animation I'm using to highlight input fields that I'm changing.  Kudos to Ola for the code, which I've tweaked from his/her post here: https://codepen.io/olam/pen/zcqea */
+/* This defines the "pulse" animation I'm using to highlight input fields
+*/
 
-
-.pulse {
-  margin:100px;
-  display: block;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #cca92c;
-  cursor: pointer;
-  box-shadow: 0 0 0 rgba(204,169,44, 0.4);
-  animation: pulse 2s 1;
+.canBePulsed {
+  -webkit-transition: all 0.30s ease-out;
+  -moz-transition: all 0.30s ease-out;
+  -ms-transition: all 0.30s ease-out;
+  -o-transition: all 0.30s ease-out;
+/*  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;*/
+  /*border: 1px solid #DDDDDD;*/
 }
 
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-  }
-  70% {
-      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
-  }
-  100% {
-      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
-  }
-}
-@keyframes pulse {
-  0% {
-    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-  }
-  70% {
-      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
-      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
-  }
-  100% {
-      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
-      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
-  }
+.pulseOn {
+  box-shadow: 0 0 20px green;
+/*  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;*/
+  /*border: 1px solid rgba(81, 203, 238, 1);*/
 }
