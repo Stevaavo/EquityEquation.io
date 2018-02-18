@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Narrow Jumbotron Template for Bootstrap</title>
+    <title>The Graham Equation</title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap.css" rel="stylesheet">
@@ -155,6 +155,7 @@
                       
                       <input type=number id=equityNum class="form-control" max="100" min="0">
                       <span class="input-group-addon">%</span> 
+
                               
                   </td>
 
@@ -178,18 +179,52 @@
             <h4>Advanced Parameters</h4>
             <p>These parameters are used in the equation.  I’m using Paul Graham’s recommendations by default, but feel free to change them.</p>
 
-            <h4>Salary Multiplier</h4>
-            <p>An employee’s salary is paid every year, not just once.  In addition, the company will incur additional “overhead” costs from the new hire.  This multiplier accounts for those extra costs.</p>
+            <table id=salaryMultTable class=advParamTable>
+            
+              <tr>
+                <td class="bordered leadingTD">
+                  <h4>Salary Multiplier</h4>
 
-            <h4>Company's Profit</h4>
-            <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse off than they were before they hired him.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  Obviously, no company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new hire.</p>
+                  <div class="input-group">
+                    <span class="input-group-addon">x</span> 
+                    <input type=number id=salaryMultiplierBox class="form-control" max="100" min="0">
+                  </div>
+
+                  <p>The employee's annual salary is multiplied by this number.  This is because an employee’s salary is paid every year, not just once.  In addition, the company will incur additional “overhead” costs from the new hire.  The salary multiplier accounts for those extra costs.</p>
+                </td>
+              </tr>
+
+            </table>
+
+            <br>
+
+
+            <table id=profitTable class=advParamTable>
+            
+              <tr>
+                <td class="bordered leadingTD">
+                  <h4>Company's Profit</h4>
+
+                  <div class="input-group">
+                    
+                    <input type=number id=companyProfitBox class="form-control" max="100" min="0">
+                    <span class="input-group-addon">%</span> 
+
+                  </div>
+
+                  <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  Obviously, no company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
+                </td>
+              </tr>
+
+            </table>
+
           </div>
         </div>
 
       </main>
 
       <footer class="footer">
-        <p>&copy; Company 2017</p>
+        <p>&copy; Steve Trambert 2018</p>
       </footer>
 
     </div> <!-- /container -->
