@@ -77,7 +77,7 @@
                   <td class="bordered inputTD">
 
                     <div class="input-group">
-                      <input type=number id=equityNum class="form-control" max="100" min="0">
+                      <input type=number id=equityNumBox class="form-control" max="100" min="0">
                       <span class="input-group-addon">%</span>         
 
                   </td>
@@ -103,7 +103,7 @@
                     <div class="input-group">
                       
                       <span class="input-group-addon">$</span> 
-                      <input type=number id=salaryNum class="form-control" max="1000000" min="0">
+                      <input type=number id=salaryNumBox class="form-control" max="1000000" min="0">
                               
                   </td>
 
@@ -129,7 +129,7 @@
                     <div class="input-group">
                       
                       <span class="input-group-addon">$</span> 
-                      <input type=number id=valueNum class="form-control" max="100" min="0">
+                      <input type=number id=valueNumBox class="form-control" max="100" min="0">
                               
                   </td>
 
@@ -153,7 +153,7 @@
 
                     <div class="input-group">
                       
-                      <input type=number id=equityNum class="form-control" max="100" min="0">
+                      <input type=number id=vMultiplierBox class="form-control" max="100" min="0">
                       <span class="input-group-addon">%</span> 
 
                               
@@ -162,6 +162,10 @@
                 </tr>    
 
               </table>
+
+              <br>
+
+              <button type="button" class="btn btn-success btn-block" id=calculateButton>Click here to calculate!</button>
 
 
             </div>
@@ -177,7 +181,7 @@
 
           <div class="col-lg-4">
             <h4>Advanced Parameters</h4>
-            <p>These parameters are used in the equation.  I’m using Paul Graham’s recommendations by default, but feel free to change them.</p>
+            <p>These parameters are used in the equation.  I’m using Paul Graham’s recommendations by default, but feel free to tweak them.  If you come to regret your tinkering, <a id=resetToDefaultLink href="javascript:void(0);">click here</a> to reset these two paramenters back to their defaults.</p>
 
             <table id=salaryMultTable class=advParamTable>
             
@@ -185,7 +189,7 @@
                 <td class="bordered leadingTD">
                   <h4>Salary Multiplier</h4>
 
-                  <div class="input-group">
+                  <div id=salaryMultiplierBoxGroup class="input-group">
                     <span class="input-group-addon">x</span> 
                     <input type=number id=salaryMultiplierBox class="form-control" max="100" min="0">
                   </div>
@@ -228,5 +232,8 @@
       </footer>
 
     </div> <!-- /container -->
+
+    <script type="text/javascript" src="grahamEqScript.js"></script>
+
   </body>
 </html>
