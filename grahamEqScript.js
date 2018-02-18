@@ -32,7 +32,7 @@ function pulseElement(elementToBePulsed) {
 	setTimeout(
 		function() {
 			elementToBePulsed.classList.remove('pulseOn');
-		}, 2000);
+		}, 100);
 }
 
 
