@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Narrow Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="narrow-jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <header class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills float-right">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="mailto:stevedomaincontact@trambert.com">Contact</a>
+            </li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">The Graham Equation Calculator</h3>
+      </header>
+
+      <main role="main">
+
+        <div class="jumbotron">
+          <h1 class="display-3">The Graham Equation</h1>
+
+          <img class=equationImage src="GrahamEqImg.png">
+
+
+
+          <!-- <br> -->
+          <p class="lead">is a mathematical method <a href="http://paulgraham.com/equity.html">developed by Paul Graham</a> for determining a reasonable portion of equity to offer an employee or investor.</p>
+<!--           <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p> -->
+        </div>
+
+        <div class="row marketing">
+          <div class="col-lg-9">
+            <h4>The Graham equation involves the 4 variables below.  By providing 3 of the numbers below, you can solve for the 4th number.</h4>
+            <br>
+
+            <h3>Which number would you like to calculate?</h3>
+
+
+            <div>
+
+              <table id=inputTable>
+              
+                <tr>
+                  <td class="bordered leadingTD">
+                    <input type="radio" name="outputRadio" id="equityRadio">
+                  </td>
+
+                  <td class="bordered">
+
+                    <table>
+                      <tr><td><h4>MY EQUITY</h4></td></tr>
+                      <tr><td>The percentage of the company that you'll be given if hired.</td></tr>
+
+                    </table>
+
+                  </td>
+
+                  <td class="bordered inputTD">
+
+                    <div class="input-group">
+                      <input type=number id=equityNum class="form-control" max="100" min="0">
+                      <span class="input-group-addon">%</span>         
+
+                  </td>
+
+                </tr>
+
+
+                <tr>
+                  <td class="bordered leadingTD">
+                    <input type="radio" name="outputRadio" id="salaryRadio" >
+                  </td>
+
+                  <td class="bordered">
+                    <table>
+                      <tr><td><h4>MY ANNUAL SALARY</h4></td></tr>
+                      <tr><td>The amount of cash you will be paid annually.</td></tr>
+
+                    </table>
+                  </td>
+
+                  <td class="bordered inputTD">
+
+                    <div class="input-group">
+                      
+                      <span class="input-group-addon">$</span> 
+                      <input type=number id=salaryNum class="form-control" max="1000000" min="0">
+                              
+                  </td>
+
+                </tr>       
+
+
+
+                <tr>
+                  <td class="bordered leadingTD">
+                    <input type="radio" name="outputRadio" id="valueRadio" >
+                  </td>
+
+                  <td class="bordered">
+                    <table>
+                      <tr><td><h4>VALUATION OF COMPANY</h4></td></tr>
+                      <tr><td>How much money the company is currently worth.</td></tr>
+
+                    </table>
+                  </td>
+
+                  <td class="bordered inputTD">
+
+                    <div class="input-group">
+                      
+                      <span class="input-group-addon">$</span> 
+                      <input type=number id=valueNum class="form-control" max="100" min="0">
+                              
+                  </td>
+
+                </tr>  
+
+
+                <tr>
+                  <td class="bordered leadingTD">
+                    <input type="radio" name="outputRadio" id="vMultiplierRadio" >
+                  </td>
+
+                  <td class="bordered">
+                    <table>
+                      <tr><td><h4>MY "VALUATION MULTIPLIER"</h4></td></tr>
+                      <tr><td>By what percentage will the company's valuation increase thanks to your hiring?</td></tr>
+
+                    </table>
+                  </td>
+
+                  <td class="bordered inputTD">
+
+                    <div class="input-group">
+                      
+                      <input type=number id=equityNum class="form-control" max="100" min="0">
+                      <span class="input-group-addon">%</span> 
+                              
+                  </td>
+
+                </tr>    
+
+              </table>
+
+
+            </div>
+
+<br>
+
+
+
+
+
+
+          </div>
+
+          <div class="col-lg-3">
+            <h4>Advanced Parameters</h4>
+            <p>These parameters are used in the equation.  I’m using Paul Graham’s recommendations by default, but feel free to change them.</p>
+
+            <h4>Salary Multiplier</h4>
+            <p>An employee’s salary is paid every year, not just once.  In addition, the company will incur additional “overhead” costs from the new hire.  This multiplier accounts for those extra costs.</p>
+
+            <h4>Company's Profit</h4>
+            <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse off than they were before they hired him.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  Obviously, no company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new hire.</p>
+          </div>
+        </div>
+
+      </main>
+
+      <footer class="footer">
+        <p>&copy; Company 2017</p>
+      </footer>
+
+    </div> <!-- /container -->
+  </body>
+</html>
