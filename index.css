@@ -70,6 +70,8 @@ td {
 
 .advParamTable {
   background-color: AliceBlue;
+/*  background-color: rgb(238, 238, 238); */
+
 }
 
 #calculateButton {
@@ -160,7 +162,7 @@ td {
 
 .pulseOn {
   box-shadow: 0 0 20px green;
-  background-color: green;
+  background-color: rgb(92, 184, 92);
 }
 
 
