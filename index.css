@@ -148,7 +148,7 @@ td {
 
 
 
-/* This defines the "pulse" animation I'm using to highlight input fields when their values are computed/assigned.  Adapted from this code by Ola https://codepen.io/olam/pen/zcqea
+/* This defines the "pulse" animation I'm using to highlight input fields when their values are computed/assigned.
 */
 
 .changesAreAnimated {
@@ -156,16 +156,46 @@ td {
   -moz-transition: all 0.5s ease-out;
   -ms-transition: all 0.5s ease-out;
   -o-transition: all 0.5s ease-out;
-/*  outline: none;
-  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;*/
-  /*border: 1px solid #DDDDDD;*/
 }
 
 .pulseOn {
   box-shadow: 0 0 20px green;
   background-color: green;
-/*  padding: 3px 0px 3px 3px;
-  margin: 5px 1px 3px 0px;*/
-  /*border: 1px solid rgba(81, 203, 238, 1);*/
+}
+
+
+
+
+
+/*This code makes the radio buttons glow green until one of them is clicked.  Adapted from this code by Ola https://codepen.io/olam/pen/zcqea
+*/
+.glowingUntilClicked {
+  animation: pulse 2s infinite;
+}
+
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(92, 184, 92, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(92, 184, 92, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(92, 184, 92, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(92, 184, 92, 0.4);
+    box-shadow: 0 0 0 0 rgba(92, 184, 92, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(92, 184, 92, 0);
+      box-shadow: 0 0 0 10px rgba(92, 184, 92, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(92, 184, 92, 0);
+      box-shadow: 0 0 0 0 rgba(92, 184, 92, 0);
+  }
 }
