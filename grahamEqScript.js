@@ -116,6 +116,9 @@ for (i=0; i<allVarInputBoxes.length; i++) {
 	allVarInputBoxes[i].addEventListener("change", function() {solveGrahamEquation(false)});
 }
 
+salaryMultiplierBox.addEventListener("change", function() {solveGrahamEquation(false)});
+companyProfitBox.addEventListener("change", function() {solveGrahamEquation(false)});
+
 
 
 function setUnfilledInputBoxesToZero() {
@@ -135,6 +138,12 @@ function appendErrorMessage(errorMessage) {
 	newErrorP.innerHTML = errorMessage;
 	errorTextBox.appendChild(newErrorP);
 }
+
+
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
 
 function solveGrahamEquation(verboseErrors) {
 
@@ -324,7 +333,35 @@ function solveGrahamEquation(verboseErrors) {
 
 	if (equityRadio.checked) {
 		equity = (1 - (1/(1 + vMultiplier)))/(1+companyProfit) - salary*(salaryMultiplier+1)/companyValue;
-		equityNumBox.value = equity*100 ;
+
+		equityNumBox.value = round(equity*100, 4);
+		pulseElement(equityNumBox);
+		equityNumBox.classList.remove('thisNumberWasComputed');
+	}
+
+	if (salaryRadio.checked) {
+		salary = (equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*companyValue*-1/(1+salaryMultiplier);
+
+		salaryNumBox.value = round(salary, 0);
+		pulseElement(salaryNumBox);
+		salaryNumBox.classList.remove('thisNumberWasComputed');
+
+	}
+
+	if (valueRadio.checked) {
+		companyValue = 1/(equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*-1*salary*(1+salaryMultiplier);
+
+		valueNumBox.value = round(companyValue, 0);
+		pulseElement(valueNumBox);
+		valueNumBox.classList.remove('thisNumberWasComputed');
+	}
+
+	if (vMultiplierRadio.checked) {
+		vMultiplier = 1/(((equity + salary*(salaryMultiplier+1)/companyValue)*(companyProfit+1) - 1)*(-1))-1;
+
+		vMultiplierBox.value = round(vMultiplier*100, 2);
+		pulseElement(vMultiplierBox);
+		vMultiplierBox.classList.remove('thisNumberWasComputed');
 	}
 
 }

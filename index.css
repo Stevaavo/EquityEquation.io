@@ -160,6 +160,10 @@ td {
   )
 }
 
+.thisNumberWasComputed {
+  font-weight: bold;
+}
+
 #errorTextBox {
   font-weight: bold;
   color: red;

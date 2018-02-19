@@ -153,7 +153,7 @@
 
                     <div class="input-group">
                       
-                      <input type=number id=vMultiplierBox name=varInputBox class="form-control" max="100" min="0">
+                      <input type=number id=vMultiplierBox name=varInputBox class="form-control" max="1000000" min="0">
                       <span class="input-group-addon">%</span> 
 
                               
@@ -165,12 +165,16 @@
 
               <br>
 
+              <div id=errorTextBox>
+              </div>
+
+              <br>
+
               <button type="button" class="btn btn-success btn-block" id=calculateButton>Click here to calculate!</button>
 
 
-              <br>
-              <div id=errorTextBox>
-              </div>
+              
+              
 
 
             </div>
@@ -195,7 +199,7 @@
                   <h4>Salary Multiplier</h4>
 
                   <div id=salaryMultiplierBoxGroup class="input-group">
-                    <input type=number id=salaryMultiplierBox class="form-control" max="100" min="0">
+                    <input type=number id=salaryMultiplierBox class="form-control" max="10000" min="0">
                     <span class="input-group-addon">%</span> 
                   </div>
 
@@ -216,12 +220,12 @@
 
                   <div class="input-group">
                     
-                    <input type=number id=companyProfitBox class="form-control" max="100" min="0">
+                    <input type=number id=companyProfitBox class="form-control" max="10000" min="0">
                     <span class="input-group-addon">%</span> 
 
                   </div>
 
-                  <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  Obviously, no company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
+                  <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  No company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
                 </td>
               </tr>
 
