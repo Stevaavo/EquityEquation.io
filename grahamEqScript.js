@@ -92,6 +92,7 @@ function outputRadioClickHandler() {
 
 	for (i = 0; i < allOutputRadioButtons.length; i++) {
 		allOutputRadioButtons[i].classList.remove('glowingUntilClicked');
+		allOutputRadioButtons[i].classList.remove('errorGlow');
 
 		if (allOutputRadioButtons[i].checked) {
 			allVarInputBoxes[i].disabled = true;
@@ -106,6 +107,13 @@ function outputRadioClickHandler() {
 
 	}
 
+	solveGrahamEquation(false);
+
+}
+
+
+for (i=0; i<allVarInputBoxes.length; i++) {
+	allVarInputBoxes[i].addEventListener("change", function() {solveGrahamEquation(false)});
 }
 
 
@@ -153,6 +161,15 @@ function solveGrahamEquation(verboseErrors) {
 
 		if (numberOfInputsWithoutValues == 1) {
 			allOutputRadioButtons[implicitlyChosenRadioButton].click();
+		}
+		else if (numberOfInputsWithoutValues == 0) {
+			appendErrorMessage('Please select the value that you want to calculate.');
+
+			for (i = 0; i < allOutputRadioButtons.length; i++) {
+				allOutputRadioButtons[i].classList.remove('glowingUntilClicked');
+				allOutputRadioButtons[i].classList.add('errorGlow');
+			}
+
 		}
 
 	}
@@ -290,6 +307,12 @@ function solveGrahamEquation(verboseErrors) {
 	if (verboseErrors && thereAreUnfilledBoxes) {
 		appendErrorMessage('Please fill in 3 of the four numbers above in order to run the equation, or <a id=setBlanksToZero onclick="setUnfilledInputBoxesToZero()" href="javascript:void(0);">click here</a> to set all the unfilled boxes to zero.');
 	}
+
+	if (thereIsAnError) {
+		return;
+	}
+
+
 
 
 	equity = equityNumBox.value/100;
