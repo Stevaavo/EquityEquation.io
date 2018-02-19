@@ -108,6 +108,17 @@ function outputRadioClickHandler() {
 
 }
 
+
+
+function setUnfilledInputBoxesToZero() {
+	for (i=0; i<allVarInputBoxes.length; i++) {
+		if (allVarInputBoxes[i].value == "") {
+			allVarInputBoxes[i].value == 0;
+		}
+	}
+}
+
+
 calculateButton.addEventListener("click", function() {solveGrahamEquation(true)});
 
 function appendErrorMessage(errorMessage) {
@@ -120,6 +131,7 @@ function solveGrahamEquation(verboseErrors) {
 
 
 	var thereIsAnError = false;
+	var thereAreUnfilledBoxes = false;
 
 	errorTextBox.innerHTML = ""
 
@@ -147,12 +159,9 @@ function solveGrahamEquation(verboseErrors) {
 
 
 
-	for (i = 0; i < allOutputRadioButtons.length; i++) {
 
-	}
-
+// Check the equity input box for errors.
 	if (equityNumBox.classList.contains('chosenOutput') || equityRadio.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
-		
 	}
 	else if(equityNumBox.value > 100) {
 		thereIsAnError = true;
@@ -165,23 +174,61 @@ function solveGrahamEquation(verboseErrors) {
 		}
 	}
 	else if (equityNumBox.value < 0) {
-			thereIsAnError = true;
+		thereIsAnError = true;
+		if (verboseErrors) {
 			equityNumBox.classList.add('errorGlow');
 			appendErrorMessage("The 'equity' number should be more than zero.")
+		}
 	}
 	else if (equityNumBox.value == "") {
 		thereIsAnError = true;
-
+		thereAreUnfilledBoxes = true;
 		if (verboseErrors) {
 			equityNumBox.classList.add('errorGlow');
-			appendErrorMessage('You need to fill in 3 of the four numbers above in order to run the equation.')
+	}
 
+// Check the salary input box for errors.
+	if (salaryNumBox.classList.contains('chosenOutput') || salaryNumBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
 		}
+	else if (salaryNumBox.value < 0) {
+		if (verboseErrors) {
+			appendErrorMessage("Heads up: You specified a negative number for your salary.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you mean that you're paying cash into the company that you're joining.")
+		}
+	}
+	else if (salaryNumBox.value == "") {
+		thereIsAnError = true;
+		thereAreUnfilledBoxes = true;
 
+		if (verboseErrors) {
+			salaryNumBox.classList.add('errorGlow');
+		}
+	}
+
+
+// Check the valuation input box for errors.
+	if (valueNumBox.classList.contains('chosenOutput') || valueNumBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+		}
+	else if (valueNumBox.value < 0) {
+		if (verboseErrors) {
+			appendErrorMessage("Heads up: You specified a negative number for the value of the company.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you're trying something... creative.")
+		}
+	}
+	else if (valueNumBox.value == "") {
+		thereIsAnError = true;
+		thereAreUnfilledBoxes = true;
+		
+		if (verboseErrors) {
+			valueNumBox.classList.add('errorGlow');
+		}
 	}
 
 
 
+
+
+	if (verboseErrors && thereAreUnfilledBoxes) {
+		appendErrorMessage('Please fill in 3 of the four numbers above in order to run the equation, or <a id=setBlanksToZero onclick="setUnfilledInputBoxesToZero()" href="javascript:void(0);">click here</a> to set all the unfilled boxes to zero.')		}
+	}
 
 
 	equity = equityNumBox.value;
