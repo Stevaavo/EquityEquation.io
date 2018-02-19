@@ -63,7 +63,7 @@ function pulseElement(elementToBePulsed) {
 
 // This function fills in the "Advanced Parameters" input boxes with default values.  It is called at pageload and when the "reset to defaults" link is clicked.
 function setAdvancedParametersToDefaults() {
-	salaryMultiplierBox.value = '1.5';
+	salaryMultiplierBox.value = '50';
 	companyProfitBox.value = '50';
 }
 
@@ -113,9 +113,10 @@ function outputRadioClickHandler() {
 function setUnfilledInputBoxesToZero() {
 	for (i=0; i<allVarInputBoxes.length; i++) {
 		if (allVarInputBoxes[i].value == "") {
-			allVarInputBoxes[i].value == 0;
+			allVarInputBoxes[i].value = 0;
 		}
 	}
+	solveGrahamEquation(false);
 }
 
 
@@ -143,7 +144,6 @@ function solveGrahamEquation(verboseErrors) {
 	var implicitlyChosenRadioButton = null;
 
 		for (i=0; i<allVarInputBoxes.length; i++) {
-			allVarInputBoxes[i].classList.remove('errorGlow');
 
 			if (allVarInputBoxes[i].value == "") {
 				numberOfInputsWithoutValues++;
@@ -169,7 +169,7 @@ function solveGrahamEquation(verboseErrors) {
 		if (verboseErrors) {
 			thereIsAnError = true;
 			equityNumBox.classList.add('errorGlow');
-			appendErrorMessage("Sorry, you can't own more than 100% of the company. <a href='https://en.wikipedia.org/wiki/The_Producers_(1967_film)'>Not even Mel Brooks</a> could pull that off.")
+			appendErrorMessage("Sorry, you can't own more than 100% of the company. <a href='https://en.wikipedia.org/wiki/The_Producers_(1967_film)'>Not even Mel Brooks</a> could pull that off.");
 
 		}
 	}
@@ -177,7 +177,7 @@ function solveGrahamEquation(verboseErrors) {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			equityNumBox.classList.add('errorGlow');
-			appendErrorMessage("The 'equity' number should be more than zero.")
+			appendErrorMessage("The 'equity' number should be more than zero.");
 		}
 	}
 	else if (equityNumBox.value == "") {
@@ -185,14 +185,16 @@ function solveGrahamEquation(verboseErrors) {
 		thereAreUnfilledBoxes = true;
 		if (verboseErrors) {
 			equityNumBox.classList.add('errorGlow');
+		}
 	}
+	else {equityNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the salary input box for errors.
 	if (salaryNumBox.classList.contains('chosenOutput') || salaryNumBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
 		}
 	else if (salaryNumBox.value < 0) {
 		if (verboseErrors) {
-			appendErrorMessage("Heads up: You specified a negative number for your salary.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you mean that you're paying cash into the company that you're joining.")
+			appendErrorMessage("Heads up: You specified a negative number for your salary.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you mean that you're paying cash into the company that you're joining.");
 		}
 	}
 	else if (salaryNumBox.value == "") {
@@ -203,6 +205,7 @@ function solveGrahamEquation(verboseErrors) {
 			salaryNumBox.classList.add('errorGlow');
 		}
 	}
+	else {salaryNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 
 // Check the valuation input box for errors.
@@ -210,7 +213,7 @@ function solveGrahamEquation(verboseErrors) {
 		}
 	else if (valueNumBox.value < 0) {
 		if (verboseErrors) {
-			appendErrorMessage("Heads up: You specified a negative number for the value of the company.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you're trying something... creative.")
+			appendErrorMessage("Heads up: You specified a negative number for the value of the company.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you're trying something... creative.");
 		}
 	}
 	else if (valueNumBox.value == "") {
@@ -221,22 +224,80 @@ function solveGrahamEquation(verboseErrors) {
 			valueNumBox.classList.add('errorGlow');
 		}
 	}
+	else {valueNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
+// Check the valuation multiplier input box for errors.
+	if (vMultiplierBox.classList.contains('chosenOutput') || vMultiplierBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	}
+	else if (vMultiplierBox.value < 0) {
+		thereIsAnError = true;
+		if (verboseErrors) {
+			vMultiplierBox.classList.add('errorGlow');
+			appendErrorMessage("The 'Valuation Multiplier' number should be more than zero.");
+		}
+	}
+	else if (vMultiplierBox.value == "") {
+		thereIsAnError = true;
+		thereAreUnfilledBoxes = true;
+		if (verboseErrors) {
+			vMultiplierBox.classList.add('errorGlow');
+		}
+	}
+	else {vMultiplierBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
+
+
+// Check the salary multiplier input box for errors.
+	if (salaryMultiplierBox.classList.contains('chosenOutput') || salaryMultiplierBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	}
+	else if (salaryMultiplierBox.value < 0) {
+		thereIsAnError = true;
+		if (verboseErrors) {
+			salaryMultiplierBox.classList.add('errorGlow');
+			appendErrorMessage("The 'Salary Multiplier' number should be more than zero.");
+		}
+	}
+	else if (salaryMultiplierBox.value == "") {
+		thereIsAnError = true;
+		thereAreUnfilledBoxes = true;
+		if (verboseErrors) {
+			salaryMultiplierBox.classList.add('errorGlow');
+		}
+	}
+	else {salaryMultiplierBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
+
+// Check the profit input box for errors.
+	if (companyProfitBox.classList.contains('chosenOutput') || companyProfitBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	}
+	else if (companyProfitBox.value <= 0) {
+		thereIsAnError = true;
+		if (verboseErrors) {
+			companyProfitBox.classList.add('errorGlow');
+			appendErrorMessage("The 'company's profit' number should be more than zero.");
+		}
+	}
+	else if (companyProfitBox.value == "") {
+		thereIsAnError = true;
+		thereAreUnfilledBoxes = true;
+		if (verboseErrors) {
+			companyProfitBox.classList.add('errorGlow');
+		}
+	}
+	else {companyProfitBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 
 
 
 	if (verboseErrors && thereAreUnfilledBoxes) {
-		appendErrorMessage('Please fill in 3 of the four numbers above in order to run the equation, or <a id=setBlanksToZero onclick="setUnfilledInputBoxesToZero()" href="javascript:void(0);">click here</a> to set all the unfilled boxes to zero.')		}
+		appendErrorMessage('Please fill in 3 of the four numbers above in order to run the equation, or <a id=setBlanksToZero onclick="setUnfilledInputBoxesToZero()" href="javascript:void(0);">click here</a> to set all the unfilled boxes to zero.');
 	}
 
 
-	equity = equityNumBox.value;
+	equity = equityNumBox.value/100;
 	salary = salaryNumBox.value;
 	companyValue = valueNumBox.value;
-	vMultiplier = vMultiplierBox.value;
-	salaryMultiplier = salaryMultiplierBox.value;
-	companyProfit = companyProfitBox.value;
+	vMultiplier = vMultiplierBox.value/100;
+	salaryMultiplier = salaryMultiplierBox.value/100;
+	companyProfit = companyProfitBox.value/100;
 
 
 }
