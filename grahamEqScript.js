@@ -313,7 +313,7 @@ function solveGrahamEquation(verboseErrors) {
 	}
 
 
-
+// OK, if we've gotten this far, we're ready to actually run the numbers and make our calculation.  Let's get started.
 
 	equity = equityNumBox.value/100;
 	salary = salaryNumBox.value;
@@ -322,6 +322,10 @@ function solveGrahamEquation(verboseErrors) {
 	salaryMultiplier = salaryMultiplierBox.value/100;
 	companyProfit = companyProfitBox.value/100;
 
+	if (equityRadio.checked) {
+		equity = (1 - (1/(1 + vMultiplier)))/(1+companyProfit) - salary*(salaryMultiplier+1)/companyValue;
+		equityNumBox.value = equity*100 ;
+	}
 
 }
 
