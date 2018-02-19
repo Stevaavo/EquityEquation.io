@@ -10,7 +10,8 @@ var salaryMultiplierBox = document.querySelector('#salaryMultiplierBox');
 var companyProfitBox = document.querySelector('#companyProfitBox');
 
 var allVarInputBoxes = document.getElementsByName('varInputBox');
-var allVarInputTDs = document.querySelectorAll('.inputTD');
+var allVarInputTDs = document.querySelectorAll('.inputTD'); // This only catches the four variables, not the 2 extra advanced parameters.
+var allInputBoxesIncludingAdvancedParams = document.querySelectorAll('.numberInputBox'); // This catches all of the input boxes, period
 
 
 // calling out the radio buttons
@@ -122,12 +123,12 @@ companyProfitBox.addEventListener("change", function() {solveGrahamEquation(fals
 
 
 function setUnfilledInputBoxesToZero() {
-	for (i=0; i<allVarInputBoxes.length; i++) {
-		if (allVarInputBoxes[i].value == "") {
-			allVarInputBoxes[i].value = 0;
+	for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
+		if (allInputBoxesIncludingAdvancedParams[i].value == "") {
+			allInputBoxesIncludingAdvancedParams[i].value = 0;
 		}
 	}
-	solveGrahamEquation(false);
+	solveGrahamEquation(true);
 }
 
 
@@ -243,7 +244,14 @@ function solveGrahamEquation(verboseErrors) {
 		}
 	else if (valueNumBox.value < 0) {
 		if (verboseErrors) {
-			appendErrorMessage("Heads up: You specified a negative number for the value of the company.  That's weird and maybe an error, but I calculated the equation with your negative number anyway, in case you're trying something... creative.");
+			appendErrorMessage("Heads up: You specified a negative number for the value of the company.  That's weird - I'm guessing you made a typo, but I calculated the equation with your negative number anyway, in case you're trying something... creative.");
+		}
+	}
+	else if (valueNumBox.value == "0") {
+		thereIsAnError = true;
+		if (verboseErrors) {
+			valueNumBox.classList.add('errorGlow');
+			appendErrorMessage("The company's valuation should be more than zero.");
 		}
 	}
 	else if (valueNumBox.value == "") {
@@ -260,7 +268,7 @@ function solveGrahamEquation(verboseErrors) {
 	if (vMultiplierRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
 		vMultiplierBox.value = "";
 	}
-	else if (vMultiplierBox.value < 0) {
+	else if (vMultiplierBox.value < 0 || vMultiplierBox.value == "0") {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			vMultiplierBox.classList.add('errorGlow');
@@ -284,14 +292,14 @@ function solveGrahamEquation(verboseErrors) {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			salaryMultiplierBox.classList.add('errorGlow');
-			appendErrorMessage("The 'Salary Multiplier' number should be more than zero.");
+			appendErrorMessage("The 'Salary Multiplier' number should be zero or greater.  If you're in a lazy mood, <a id=setBlanksToZero onclick='setUnfilledInputBoxesToZero()' href='javascript:void(0);'>click here</a> to set all unfilled boxes to zero.");
 		}
 	}
 	else if (salaryMultiplierBox.value == "") {
 		thereIsAnError = true;
-		thereAreUnfilledBoxes = true;
 		if (verboseErrors) {
 			salaryMultiplierBox.classList.add('errorGlow');
+			appendErrorMessage("Please fill in the 'salary multiplier' box.");
 		}
 	}
 	else {salaryMultiplierBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
@@ -299,18 +307,18 @@ function solveGrahamEquation(verboseErrors) {
 // Check the profit input box for errors.
 	if (companyProfitBox.classList.contains('chosenOutput') || companyProfitBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
 	}
-	else if (companyProfitBox.value <= 0) {
+	else if (companyProfitBox.value < 0) {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			companyProfitBox.classList.add('errorGlow');
-			appendErrorMessage("The 'company's profit' number should be more than zero.");
+			appendErrorMessage("The 'company's profit' number should be zero or greater.  If you're in a lazy mood, <a id=setBlanksToZero onclick='setUnfilledInputBoxesToZero()' href='javascript:void(0);'>click here</a> to set all unfilled boxes to zero.");
 		}
 	}
 	else if (companyProfitBox.value == "") {
 		thereIsAnError = true;
-		thereAreUnfilledBoxes = true;
 		if (verboseErrors) {
 			companyProfitBox.classList.add('errorGlow');
+			appendErrorMessage("Please fill in the 'company's profit' box.");
 		}
 	}
 	else {companyProfitBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
