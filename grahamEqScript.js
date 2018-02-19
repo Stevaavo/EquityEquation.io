@@ -187,7 +187,8 @@ function solveGrahamEquation(verboseErrors) {
 
 
 // Check the equity input box for errors.
-	if (equityNumBox.classList.contains('chosenOutput') || equityRadio.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	if (equityRadio.checked){ //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+		equityNumBox.value = "";
 	}
 	else if(equityNumBox.value > 100) {
 		thereIsAnError = true;
@@ -216,7 +217,8 @@ function solveGrahamEquation(verboseErrors) {
 	else {equityNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the salary input box for errors.
-	if (salaryNumBox.classList.contains('chosenOutput') || salaryNumBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	if (salaryRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+		salaryNumBox.value = "";
 		}
 	else if (salaryNumBox.value < 0) {
 		if (verboseErrors) {
@@ -226,6 +228,7 @@ function solveGrahamEquation(verboseErrors) {
 	else if (salaryNumBox.value == "") {
 		thereIsAnError = true;
 		thereAreUnfilledBoxes = true;
+		console.log('salary unfilled');
 
 		if (verboseErrors) {
 			salaryNumBox.classList.add('errorGlow');
@@ -235,7 +238,8 @@ function solveGrahamEquation(verboseErrors) {
 
 
 // Check the valuation input box for errors.
-	if (valueNumBox.classList.contains('chosenOutput') || valueNumBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	if (valueRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+		valueNumBox.value = "";
 		}
 	else if (valueNumBox.value < 0) {
 		if (verboseErrors) {
@@ -253,7 +257,8 @@ function solveGrahamEquation(verboseErrors) {
 	else {valueNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the valuation multiplier input box for errors.
-	if (vMultiplierBox.classList.contains('chosenOutput') || vMultiplierBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
+	if (vMultiplierRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+		vMultiplierBox.value = "";
 	}
 	else if (vMultiplierBox.value < 0) {
 		thereIsAnError = true;
