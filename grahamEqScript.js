@@ -36,16 +36,16 @@ var companyProfit = null;
 // calling out the error text box
 var errorTextBox = document.querySelector('#errorTextBox');
 
-
+// This will be set to "true" once the user clicks a radio button.
 var hasTheUserChosenAnOutput = false;
 
 
-// This function causes an element to "pulse," and is used when the javascript fills in valus (after calculating or resetting parameters to defaults)
+// This function causes an element to "pulse" green.  It is used when the javascript fills in valus (after calculating or resetting parameters to defaults)
 function pulseElement(elementToBePulsed) {
 
 	elementToBePulsed.classList.add('pulseOn'); // This adds a green background to the box
 
-	// After waiting a beat (100ms chosen arbitrarily) we add a class that causes all changes to the element to be animated, and then we remove the 'pulseOn' class, so that the border background to fade away.
+	// After waiting a beat (100ms chosen arbitrarily) we add a class that causes all changes to the element to be animated, and then we remove the 'pulseOn' class, so that the border background begins to fade away.
 	setTimeout(
 		function() {
 			elementToBePulsed.classList.add('changesAreAnimated');
@@ -71,6 +71,7 @@ function setAdvancedParametersToDefaults() {
 // Sets "Advanced Parameters" to default on pageload
 setAdvancedParametersToDefaults();
 
+// Add click listener to the link that offers the option to reset the advanced parameters to their defaults.
 resetToDefaultLink.addEventListener("click", function() {
 	setAdvancedParametersToDefaults
 	pulseElement(salaryMultiplierBox);
@@ -86,23 +87,26 @@ salaryRadio.addEventListener("click", outputRadioClickHandler);
 valueRadio.addEventListener("click", outputRadioClickHandler);
 vMultiplierRadio.addEventListener("click", outputRadioClickHandler);
 
+
+
 // This function greys out and puts a background behind the proper input box every time a radio button is clicked.
 function outputRadioClickHandler() {
 
-	hasTheUserChosenAnOutput = true;
+	hasTheUserChosenAnOutput = true; // Permanently changing this flag now tha one of the radio buttons has been clicked.
 
+	// We iterate over all the radio buttons and permanently remove the glow effects that previously highlighted them.
 	for (i = 0; i < allOutputRadioButtons.length; i++) {
 		allOutputRadioButtons[i].classList.remove('glowingUntilClicked');
 		allOutputRadioButtons[i].classList.remove('errorGlow');
 
-		if (allOutputRadioButtons[i].checked) {
-			allVarInputBoxes[i].disabled = true;
-			allVarInputTDs[i].classList.add('chosenOutput');
+		if (allOutputRadioButtons[i].checked) { 
+			allVarInputBoxes[i].disabled = true; // We disable the button at hand if its radio button has been checked.
+			allVarInputTDs[i].classList.add('chosenOutput'); // We flag it as the "chosen output" as well.  The CSS causes the table item to have a green diagonal background.
 			allVarInputBoxes[i].classList.remove('errorGlow');
 		}
 		else{
 			allVarInputBoxes[i].disabled = false;
-			allVarInputBoxes[i].classList.remove('thisNumberWasComputed');
+			allVarInputBoxes[i].classList.remove('thisNumberWasComputed'); // Removed a class that basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 			allVarInputTDs[i].classList.remove('chosenOutput');
 		}
 
@@ -113,15 +117,13 @@ function outputRadioClickHandler() {
 }
 
 
-for (i=0; i<allVarInputBoxes.length; i++) {
-	allVarInputBoxes[i].addEventListener("change", function() {solveGrahamEquation(false)});
+// Add listeners to every input boxes that cause the tool to automatically recalculate every time the user edits values.
+for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
+	allInputBoxesIncludingAdvancedParams[i].addEventListener("change", function() {solveGrahamEquation(false)});
 }
 
-salaryMultiplierBox.addEventListener("change", function() {solveGrahamEquation(false)});
-companyProfitBox.addEventListener("change", function() {solveGrahamEquation(false)});
 
-
-
+// The error that pops up when users have left boxes unfilled offers them a link they can click to set all empty boxes to zero.  THis is the function that link calls.
 function setUnfilledInputBoxesToZero() {
 	for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
 		if (allInputBoxesIncludingAdvancedParams[i].value == "") {
@@ -134,6 +136,8 @@ function setUnfilledInputBoxesToZero() {
 
 calculateButton.addEventListener("click", function() {solveGrahamEquation(true)});
 
+
+// This function appends a new error-message paragraph to the "errorTextBox" div.
 function appendErrorMessage(errorMessage) {
 	var newErrorP = document.createElement('p');
 	newErrorP.innerHTML = errorMessage;
@@ -141,39 +145,41 @@ function appendErrorMessage(errorMessage) {
 }
 
 
+// Apparently Javascript is pretty awful at rounding variables.  This function gets around that.  Kudos to Jack Moore for the code: http://www.jacklmoore.com/notes/rounding-in-javascript/
 function round(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 
-function solveGrahamEquation(verboseErrors) {
 
+// This is the big one.  Let's try solving the equation for the user!
+function solveGrahamEquation(verboseErrors) {
 
 	var thereIsAnError = false;
 	var thereAreUnfilledBoxes = false;
 
-	errorTextBox.innerHTML = ""
+	errorTextBox.innerHTML = ""  // Clear all currently displayed error messages from the error text box.
 
 
 
-// If the user hasn't chosen an output via a radio button yet, we check to see if he did so implicitly by filling in all but one box.  If they have, we click that radio button for them.
-	if (!hasTheUserChosenAnOutput) {
+// If the user hasn't chosen an output via a radio button yet, we check to see if he did so implicitly by filling in all boxes except for one.  If they have, we click that radio button on their behalf - but only if they've clicked the "calculate!" button (as demonstrated through the verboseErrors flag being true)
+	if (!hasTheUserChosenAnOutput && verboseErrors) {
 	var numberOfInputsWithoutValues = 0;
 	var implicitlyChosenRadioButton = null;
 
 		for (i=0; i<allVarInputBoxes.length; i++) {
 
 			if (allVarInputBoxes[i].value == "") {
-				numberOfInputsWithoutValues++;
-				implicitlyChosenRadioButton = i;
+				numberOfInputsWithoutValues++; // keep track of how many variables are filled in.
+				implicitlyChosenRadioButton = i; // Keep track of the index of the one-chosen variable.
 			}
 		}
 
 		if (numberOfInputsWithoutValues == 1) {
-			allOutputRadioButtons[implicitlyChosenRadioButton].click();
+			allOutputRadioButtons[implicitlyChosenRadioButton].click(); // If only one variable is unfulled, we click that one for the user.
 		}
 		else if (numberOfInputsWithoutValues == 0) {
-			appendErrorMessage('Please select the value that you want to calculate.');
+			appendErrorMessage('Please select the value that you want to calculate.'); // If all the variables are filled, we ask the user what they want us to calculate, and we highlight the radio buttons in red animations in case the user didn't see them before.
 
 			for (i = 0; i < allOutputRadioButtons.length; i++) {
 				allOutputRadioButtons[i].classList.remove('glowingUntilClicked');
@@ -188,7 +194,7 @@ function solveGrahamEquation(verboseErrors) {
 
 
 // Check the equity input box for errors.
-	if (equityRadio.checked){ //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+	if (equityRadio.checked){ //If this box is checked, do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
 		equityNumBox.value = "";
 	}
 	else if(equityNumBox.value > 100) {
@@ -218,7 +224,7 @@ function solveGrahamEquation(verboseErrors) {
 	else {equityNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the salary input box for errors.
-	if (salaryRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+	if (salaryRadio.checked){  //If this box is checked, do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
 		salaryNumBox.value = "";
 		}
 	else if (salaryNumBox.value < 0) {
@@ -239,7 +245,7 @@ function solveGrahamEquation(verboseErrors) {
 
 
 // Check the valuation input box for errors.
-	if (valueRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+	if (valueRadio.checked){  //If this box is checked, do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
 		valueNumBox.value = "";
 		}
 	else if (valueNumBox.value < 0) {
@@ -265,7 +271,7 @@ function solveGrahamEquation(verboseErrors) {
 	else {valueNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the valuation multiplier input box for errors.
-	if (vMultiplierRadio.checked){  //do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
+	if (vMultiplierRadio.checked){  //If this box is checked, do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
 		vMultiplierBox.value = "";
 	}
 	else if (vMultiplierBox.value < 0 || vMultiplierBox.value == "0") {
@@ -286,9 +292,7 @@ function solveGrahamEquation(verboseErrors) {
 
 
 // Check the salary multiplier input box for errors.
-	if (salaryMultiplierBox.classList.contains('chosenOutput') || salaryMultiplierBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
-	}
-	else if (salaryMultiplierBox.value < 0) {
+	if (salaryMultiplierBox.value < 0) {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			salaryMultiplierBox.classList.add('errorGlow');
@@ -305,9 +309,7 @@ function solveGrahamEquation(verboseErrors) {
 	else {salaryMultiplierBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the profit input box for errors.
-	if (companyProfitBox.classList.contains('chosenOutput') || companyProfitBox.checked){ //do nothing, contents don't matter because they're being assigned. Checking both of these conditions just in case my radio listener code fails.
-	}
-	else if (companyProfitBox.value < 0) {
+	if (companyProfitBox.value < 0) {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			companyProfitBox.classList.add('errorGlow');
@@ -331,11 +333,11 @@ function solveGrahamEquation(verboseErrors) {
 	}
 
 	if (thereIsAnError) {
-		return;
+		return; // If there was an error, we end the function here without actually calculating anything.
 	}
 
 
-// OK, if we've gotten this far, we're ready to actually run the numbers and make our calculation.  Let's get started.
+// OK, if we've gotten this far, we're ready to actually run the numbers and make our calculation.  Let's get started by pulling all the inputs, and - as needed - converting them from percentages to decimal values.
 
 	equity = equityNumBox.value/100;
 	salary = salaryNumBox.value;
@@ -344,37 +346,34 @@ function solveGrahamEquation(verboseErrors) {
 	salaryMultiplier = salaryMultiplierBox.value/100;
 	companyProfit = companyProfitBox.value/100;
 
+	// run this version of the equuation if the 'equity' button is checked
 	if (equityRadio.checked) {
 		equity = (1 - (1/(1 + vMultiplier)))/(1+companyProfit) - salary*(salaryMultiplier+1)/companyValue;
 
 		equityNumBox.value = round(equity*100, 4);
 		pulseElement(equityNumBox);
-		equityNumBox.classList.remove('thisNumberWasComputed');
-	}
+		equityNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 
-	if (salaryRadio.checked) {
+	} else if (salaryRadio.checked) { // run this version of the equuation if the 'salary' button is checked
 		salary = (equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*companyValue*-1/(1+salaryMultiplier);
 
 		salaryNumBox.value = round(salary, 0);
 		pulseElement(salaryNumBox);
-		salaryNumBox.classList.remove('thisNumberWasComputed');
+		salaryNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 
-	}
-
-	if (valueRadio.checked) {
+	} else if (valueRadio.checked) { // run this version of the equuation if the 'value' button is checked
 		companyValue = 1/(equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*-1*salary*(1+salaryMultiplier);
 
 		valueNumBox.value = round(companyValue, 0);
 		pulseElement(valueNumBox);
-		valueNumBox.classList.remove('thisNumberWasComputed');
-	}
+		valueNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 
-	if (vMultiplierRadio.checked) {
+	} else if (vMultiplierRadio.checked) { // run this version of the equuation if the 'valuation multiplier' button is checked
 		vMultiplier = 1/(((equity + salary*(salaryMultiplier+1)/companyValue)*(companyProfit+1) - 1)*(-1))-1;
 
 		vMultiplierBox.value = round(vMultiplier*100, 2);
 		pulseElement(vMultiplierBox);
-		vMultiplierBox.classList.remove('thisNumberWasComputed');
+		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 	}
 
 }
