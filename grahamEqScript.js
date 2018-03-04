@@ -77,7 +77,7 @@ setAdvancedParametersToDefaults();
 
 // Add click listener to the link that offers the option to reset the advanced parameters to their defaults.
 resetToDefaultLink.addEventListener("click", function() {
-	setAdvancedParametersToDefaults
+	setAdvancedParametersToDefaults();
 	pulseElement(salaryMultiplierBox);
 	pulseElement(companyProfitBox);
 
