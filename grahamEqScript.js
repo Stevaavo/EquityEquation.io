@@ -20,6 +20,7 @@ var salaryRadio = document.querySelector('#salaryRadio');
 var valueRadio = document.querySelector('#valueRadio');
 var vMultiplierRadio = document.querySelector('#vMultiplierRadio');
 var allOutputRadioButtons = document.getElementsByName('outputRadio');
+var allHintParas = document.querySelectorAll('.hintPara');
 
 // calling out the calculate and reset-to-default buttons
 var calculateButton = document.querySelector('#calculateButton');
@@ -38,6 +39,9 @@ var errorTextBox = document.querySelector('#errorTextBox');
 
 // This will be set to "true" once the user clicks a radio button.
 var hasTheUserChosenAnOutput = false;
+
+// Remains false until the first successful calculation is run, and then stays permanently true.  Used for showing/hiding tooltips (see 'hintPara' class members).
+var hasCalculationSuccessfullyOccuredYet = false;
 
 
 // This function causes an element to "pulse" green.  It is used when the javascript fills in valus (after calculating or resetting parameters to defaults)
@@ -92,7 +96,7 @@ vMultiplierRadio.addEventListener("click", outputRadioClickHandler);
 // This function greys out and puts a background behind the proper input box every time a radio button is clicked.
 function outputRadioClickHandler() {
 
-	hasTheUserChosenAnOutput = true; // Permanently changing this flag now tha one of the radio buttons has been clicked.
+	hasTheUserChosenAnOutput = true; // Permanently changing this flag now that one of the radio buttons has been clicked.
 
 	// We iterate over all the radio buttons and permanently remove the glow effects that previously highlighted them.
 	for (i = 0; i < allOutputRadioButtons.length; i++) {
@@ -103,11 +107,18 @@ function outputRadioClickHandler() {
 			allVarInputBoxes[i].disabled = true; // We disable the button at hand if its radio button has been checked.
 			allVarInputTDs[i].classList.add('chosenOutput'); // We flag it as the "chosen output" as well.  The CSS causes the table item to have a green diagonal background.
 			allVarInputBoxes[i].classList.remove('errorGlow');
+
+			// If the user hasn't made a successful calculation yet, we un-hide a small tooltip paragraph telling them to fill in the other 3 numbers.  You can find these hints in the HTML under the 'hintPara' class.
+			if (!hasCalculationSuccessfullyOccuredYet) {
+				allHintParas[i].classList.remove('hiddenPara');
+			}
 		}
 		else{
 			allVarInputBoxes[i].disabled = false;
 			allVarInputBoxes[i].classList.remove('thisNumberWasComputed'); // Removed a class that basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 			allVarInputTDs[i].classList.remove('chosenOutput');
+
+			allHintParas[i].classList.add('hiddenPara'); // Hide any tooltips that were visible on previously-selected numbers
 		}
 
 	}
@@ -345,6 +356,12 @@ function solveGrahamEquation(verboseErrors) {
 	vMultiplier = vMultiplierBox.value/100;
 	salaryMultiplier = salaryMultiplierBox.value/100;
 	companyProfit = companyProfitBox.value/100;
+
+	// One last bit of housekeeping before we start crunching numbers - let's permanently remove any tooltips, if they're around:
+	hasCalculationSuccessfullyOccuredYet = true;
+	for (i = 0; i < allHintParas.length; i++) {
+		allHintParas[i].classList.add('hiddenPara'); // Hide any tooltips that were visible
+	}
 
 	// run this version of the equuation if the 'equity' button is checked
 	if (equityRadio.checked) {

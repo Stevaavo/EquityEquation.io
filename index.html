@@ -68,7 +68,7 @@
 
                     <table>
                       <tr><td><h4>EQUITY</h4></td></tr>
-                      <tr><td>The percentage of the company that you (or your new hire) will be given if hired.</td></tr>
+                      <tr><td>The percentage of the company that will/should be given to the new employee.</td></tr>
 
                     </table>
 
@@ -77,8 +77,11 @@
                   <td class="bordered inputTD">
 
                     <div class="input-group">
-                      <input type=number id=equityNumBox name=varInputBox class="form-control numberInputBox" max="100" min="0">
-                      <span class="input-group-addon">%</span>         
+
+                      <input type=number id=equityNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                      <span class="input-group-addon">%</span>
+                    </div>
+                      <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
 
                   </td>
 
@@ -104,6 +107,8 @@
                       
                       <span class="input-group-addon">$</span> 
                       <input type=number id=salaryNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                    </div>
+                    <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
                               
                   </td>
 
@@ -130,6 +135,8 @@
                       
                       <span class="input-group-addon">$</span> 
                       <input type=number id=valueNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                    </div>
+                    <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
                               
                   </td>
 
@@ -144,7 +151,7 @@
                   <td class="bordered">
                     <table>
                       <tr><td><h4>THE NEW HIRE'S "VALUATION MULTIPLIER"</h4></td></tr>
-                      <tr><td>By what percentage will the company's valuation increase thanks to the new hire's talents?</td></tr>
+                      <tr><td>By what percentage will the company's valuation increase due to hiring this person?</td></tr>
 
                     </table>
                   </td>
@@ -155,6 +162,8 @@
                       
                       <input type=number id=vMultiplierBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                       <span class="input-group-addon">%</span> 
+                    </div>
+                    <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
 
                               
                   </td>
@@ -170,7 +179,7 @@
 
               <br>
 
-              <button type="button" class="btn btn-success btn-block" id=calculateButton>Click here to calculate!</button>
+              <button type="button" class="btn btn-success btn-block" id=calculateButton>Calculate!</button>
 
 
               
@@ -225,7 +234,7 @@
 
                   </div>
 
-                  <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  No company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
+                  <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse-off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  No company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
                 </td>
               </tr>
 
@@ -238,8 +247,10 @@
             <hr>
 
             <h2>Howdy!</h1>
-            <p>I'm Steve Trambert.  The Graham Equation was quite helpful to me in negotiating my last job offer.  I hope you find it similarly useful.</p>
-            <p>I built this tool as an exercise while teaching myself javascript and HTML/CSS, so if you spot any bugs in the way the calculator works, I'd love to hear from you.  Feel free to send feedback, friendly criticism, political manifestos, protestations of undying love, or death threats to <a href="mailto:grahamEquation@trambert.com">grahamEquation@trambert.com</a>.</p>
+            <p>I'm Steve Trambert.  The Graham Equation was helpful to me in negotiating my last job offer, and I hope you find it similarly useful!</p>
+            <p>I built this tool while teaching myself javascript and HTML/CSS, so if you have any feedback, I'd love to hear from you.  Feel free to send suggestions, friendly criticism, questions, or death threats to <a href="mailto:grahamEquation@trambert.com">grahamEquation@trambert.com</a>.</p>
+
+            <p>I don't accept donations myself, but if you found this page helpful and you want to make my day, I'd be very grateful if you would make a donation to my favorite charity, <a href="https://grabify.link/WVCWTJ">GiveDirectly.</a> GiveDirectly is a lean organization working on an relatively novel approach to international charity, experimenting with direct cash-transfers to low-income individuals.  You can find their donation page <a href="https://grabify.link/J800OP">here,</a> or you can listen to an episode of the Planet Money podcast covering their work <a href="https://grabify.link/T7N0CV">here.</a></p>
 
           </div>
 
