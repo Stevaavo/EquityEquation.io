@@ -134,6 +134,16 @@ function outputRadioClickHandler() {
 // }
 
 
+// Add listeners to every input boxes that cause the tool to automatically remove bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
+for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
+	allInputBoxesIncludingAdvancedParams[i].addEventListener("change", function() {
+		for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
+			allInputBoxesIncludingAdvancedParams[i].classList.remove('thisNumberWasComputed')
+		}
+	});
+}
+
+
 // The error that pops up when users have left boxes unfilled offers them a link they can click to set all empty boxes to zero.  THis is the function that link calls.
 function setUnfilledInputBoxesToZero() {
 	for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
