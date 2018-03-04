@@ -21,6 +21,7 @@ var valueRadio = document.querySelector('#valueRadio');
 var vMultiplierRadio = document.querySelector('#vMultiplierRadio');
 var allOutputRadioButtons = document.getElementsByName('outputRadio');
 var allHintParas = document.querySelectorAll('.hintPara');
+var allInputGroups = document.querySelectorAll('.input-group');
 
 // calling out the calculate and reset-to-default buttons
 var calculateButton = document.querySelector('#calculateButton');
@@ -102,28 +103,35 @@ function outputRadioClickHandler() {
 	for (i = 0; i < allOutputRadioButtons.length; i++) {
 		allOutputRadioButtons[i].classList.remove('glowingUntilClicked');
 		allOutputRadioButtons[i].classList.remove('errorGlow');
+		allVarInputTDs[i].classList.remove('hiddenCell')
 
 		if (allOutputRadioButtons[i].checked) { 
-			allVarInputBoxes[i].disabled = true; // We disable the button at hand if its radio button has been checked.
+			allVarInputBoxes[i].disabled = true; // We disable the input box at hand if its radio button has been checked.
 			allVarInputTDs[i].classList.add('chosenOutput'); // We flag it as the "chosen output" as well.  The CSS causes the table item to have a green diagonal background.
 			allVarInputBoxes[i].classList.remove('errorGlow');
+			allVarInputBoxes[i].classList.add('thisNumberNotComputed'); // change the number to italics until it's been computed, to demonstrate that it is not an accurate number that the calculator produced.
 
 			// If the user hasn't made a successful calculation yet, we un-hide a small tooltip paragraph telling them to fill in the other 3 numbers.  You can find these hints in the HTML under the 'hintPara' class.
 			if (!hasCalculationSuccessfullyOccuredYet) {
-				allHintParas[i].classList.remove('hiddenPara');
+				allHintParas[i].classList.remove('hiddenPara'); //unhide the hint about entering the other 3 numbers
+				allInputGroups[i].classList.add('hiddenPara'); //hide the input box for this variable
+
 			}
 		}
 		else{
 			allVarInputBoxes[i].disabled = false;
 			allVarInputBoxes[i].classList.remove('thisNumberWasComputed'); // Removed a class that basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
+			allVarInputBoxes[i].classList.remove('thisNumberNotComputed');
+			
 			allVarInputTDs[i].classList.remove('chosenOutput');
 
 			allHintParas[i].classList.add('hiddenPara'); // Hide any tooltips that were visible on previously-selected numbers
+			allInputGroups[i].classList.remove('hiddenPara') // Unhide the input box
 		}
 
 	}
 
-	solveGrahamEquation(false);
+	// solveGrahamEquation(false);
 
 }
 
@@ -133,15 +141,61 @@ function outputRadioClickHandler() {
 // 	allInputBoxesIncludingAdvancedParams[i].addEventListener("change", function() {solveGrahamEquation(false)});
 // }
 
+function inputBoxChangeHandler() {
+	console.log('change');
+	for (q=0; q<allInputBoxesIncludingAdvancedParams.length; q++) {
+			allInputBoxesIncludingAdvancedParams[q].classList.remove('thisNumberWasComputed') // Automatically remove all bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
+		}
+}
 
-// Add listeners to every input boxes that cause the tool to automatically remove bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
+// Add listeners to every input boxes that is called when the number inside is changed, to remove the bold "computed" effect from any previously computed variables.
 for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
 	allInputBoxesIncludingAdvancedParams[i].addEventListener("change", function() {
-		for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
-			allInputBoxesIncludingAdvancedParams[i].classList.remove('thisNumberWasComputed')
-		}
+		inputBoxChangeHandler();
 	});
 }
+
+function formatInputBoxes(boxToFormat) {
+	if (boxToFormat == 'equity' || boxToFormat == 'all') {
+		equityNumBox.value = formatNumber(equityNumBox.value, 3);
+	}
+
+	if (boxToFormat == 'salary' || boxToFormat == 'all') {
+		salaryNumBox.value = formatNumber(salaryNumBox.value, 0);
+	}
+
+	if (boxToFormat == 'valuation' || boxToFormat == 'all') {
+		valueNumBox.value = formatNumber(valueNumBox.value, 0);
+	}
+
+	if (boxToFormat == 'vMultiplier' || boxToFormat == 'all') {
+		vMultiplierBox.value = formatNumber(vMultiplierBox.value, 3);
+	}
+
+}
+
+// Add another, individual click listener to each input box to format the number after every change.
+equityNumBox.addEventListener("change", function() {
+	formatInputBoxes('equity');
+	this.classList.remove("errorGlow");
+});
+
+salaryNumBox.addEventListener("change", function() {
+	formatInputBoxes('salary');
+	this.classList.remove("errorGlow");
+});
+
+valueNumBox.addEventListener("change", function() {
+	formatInputBoxes('valuation');
+	this.classList.remove("errorGlow");
+});
+
+vMultiplierBox.addEventListener("change", function() {
+	formatInputBoxes('vMultiplier');
+	this.classList.remove("errorGlow");
+});
+
+
 
 
 // The error that pops up when users have left boxes unfilled offers them a link they can click to set all empty boxes to zero.  THis is the function that link calls.
@@ -171,12 +225,47 @@ function round(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
+// Format a number n using: 
+//   p decimal places (two by default)
+//   ts as the thousands separator (comma by default) and
+//   dp as the  decimal point (period by default).
+//
+//   If p < 0 or p > 20 results are implementation dependent.
+function formatNumber(n, p, ts, dp) {
+
+	if (isNaN(n)) {
+		return n;
+	}
+
+  var t = [];
+  // Get arguments, set defaults
+  if (typeof p  == 'undefined') p  = 2;
+  if (typeof ts == 'undefined') ts = ',';
+  if (typeof dp == 'undefined') dp = '.';
+
+  // Get number and decimal part of n
+  n = Number(n).toFixed(p).split('.');
+
+  // Add thousands separator and decimal point (if requied):
+  for (var iLen = n[0].length, i = iLen? iLen % 3 || 3 : 0, j = 0; i <= iLen; i+=3) {
+    t.push(n[0].substring(j, i));
+    j = i;
+  }
+  // Insert separators and return result
+  return t.join(ts) + (n[1]? dp + n[1] : '');
+}
+
+function deFormatNumber(n) {
+	return Number(n.replace(/\,/g,''));
+}
+
 
 
 // This is the big one.  Let's try solving the equation for the user!
 function solveGrahamEquation(verboseErrors) {
 
 	var thereIsAnError = false;
+	var notNumberError = false;
 	var thereAreUnfilledBoxes = false;
 
 	errorTextBox.innerHTML = ""  // Clear all currently displayed error messages from the error text box.
@@ -184,6 +273,7 @@ function solveGrahamEquation(verboseErrors) {
 
 
 // If the user hasn't chosen an output via a radio button yet, we check to see if he did so implicitly by filling in all boxes except for one.  If they have, we click that radio button on their behalf - but only if they've clicked the "calculate!" button (as demonstrated through the verboseErrors flag being true)
+// This code is partially obsolete now that the input boxes are hidden until the user clicks a radio button. However, the code in the "ELSE" statement is now used to throw an error explaining that the user needs to click a radio button.
 	if (!hasTheUserChosenAnOutput && verboseErrors) {
 	var numberOfInputsWithoutValues = 0;
 	var implicitlyChosenRadioButton = null;
@@ -197,15 +287,18 @@ function solveGrahamEquation(verboseErrors) {
 		}
 
 		if (numberOfInputsWithoutValues == 1) {
-			allOutputRadioButtons[implicitlyChosenRadioButton].click(); // If only one variable is unfulled, we click that one for the user.
+			allOutputRadioButtons[implicitlyChosenRadioButton].click(); // If only one variable is unfulled, we assume that's what they want to calculate, and we click that radio button for the user.
 		}
-		else if (numberOfInputsWithoutValues == 0) {
-			appendErrorMessage('Please select the value that you want to calculate.'); // If all the variables are filled, we ask the user what they want us to calculate, and we highlight the radio buttons in red animations in case the user didn't see them before.
+		else {
+			// We ask the user to choose a radio button, and highlight them
+			appendErrorMessage('Please select the value that you want to calculate.'); 
 
 			for (i = 0; i < allOutputRadioButtons.length; i++) {
 				allOutputRadioButtons[i].classList.remove('glowingUntilClicked');
 				allOutputRadioButtons[i].classList.add('errorGlow');
 			}
+
+			return
 
 		}
 
@@ -242,6 +335,13 @@ function solveGrahamEquation(verboseErrors) {
 			equityNumBox.classList.add('errorGlow');
 		}
 	}
+	else if (isNaN(deFormatNumber(equityNumBox.value))) {
+		thereIsAnError = true;
+		notNumberError = true;
+		if (verboseErrors) {
+			equityNumBox.classList.add('errorGlow');
+		}
+	}
 	else {equityNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the salary input box for errors.
@@ -258,6 +358,13 @@ function solveGrahamEquation(verboseErrors) {
 		thereAreUnfilledBoxes = true;
 		console.log('salary unfilled');
 
+		if (verboseErrors) {
+			salaryNumBox.classList.add('errorGlow');
+		}
+	}
+	else if (isNaN(deFormatNumber(salaryNumBox.value))) {
+		thereIsAnError = true;
+		notNumberError = true;
 		if (verboseErrors) {
 			salaryNumBox.classList.add('errorGlow');
 		}
@@ -289,6 +396,13 @@ function solveGrahamEquation(verboseErrors) {
 			valueNumBox.classList.add('errorGlow');
 		}
 	}
+	else if (isNaN(deFormatNumber(valueNumBox.value))) {
+		thereIsAnError = true;
+		notNumberError = true;
+		if (verboseErrors) {
+			valueNumBox.classList.add('errorGlow');
+		}
+	}
 	else {valueNumBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the valuation multiplier input box for errors.
@@ -305,6 +419,13 @@ function solveGrahamEquation(verboseErrors) {
 	else if (vMultiplierBox.value == "") {
 		thereIsAnError = true;
 		thereAreUnfilledBoxes = true;
+		if (verboseErrors) {
+			vMultiplierBox.classList.add('errorGlow');
+		}
+	}
+	else if (isNaN(deFormatNumber(vMultiplierBox.value))) {
+		thereIsAnError = true;
+		notNumberError = true;
 		if (verboseErrors) {
 			vMultiplierBox.classList.add('errorGlow');
 		}
@@ -327,6 +448,13 @@ function solveGrahamEquation(verboseErrors) {
 			appendErrorMessage("Please fill in the 'salary multiplier' box.");
 		}
 	}
+	else if (isNaN(deFormatNumber(salaryMultiplierBox.value))) {
+		thereIsAnError = true;
+		notNumberError = true;
+		if (verboseErrors) {
+			salaryMultiplierBox.classList.add('errorGlow');
+		}
+	}
 	else {salaryMultiplierBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 // Check the profit input box for errors.
@@ -344,6 +472,13 @@ function solveGrahamEquation(verboseErrors) {
 			appendErrorMessage("Please fill in the 'company's profit' box.");
 		}
 	}
+	else if (isNaN(deFormatNumber(companyProfitBox.value))) { 
+		thereIsAnError = true;
+		notNumberError = true;
+		if (verboseErrors) {
+			companyProfitBox.classList.add('errorGlow');
+		}
+	}
 	else {companyProfitBox.classList.remove('errorGlow');} // if all is well, remove any previous warning animation.
 
 
@@ -353,33 +488,44 @@ function solveGrahamEquation(verboseErrors) {
 		appendErrorMessage('Please fill in 3 of the four numbers above in order to run the equation, or <a id=setBlanksToZero onclick="setUnfilledInputBoxesToZero()" href="javascript:void(0);">click here</a> to set all the unfilled boxes to zero.');
 	}
 
+	if (notNumberError && verboseErrors) {
+		appendErrorMessage("Numbers only please.");
+	}
+
 	if (thereIsAnError) {
 		return; // If there was an error, we end the function here without actually calculating anything.
 	}
 
 
 // OK, if we've gotten this far, we're ready to actually run the numbers and make our calculation.  Let's get started by pulling all the inputs, and - as needed - converting them from percentages to decimal values.
+// Also, we need to 'deformat' the numbers - remove commas, dollar signs, and percent signs.  Otherwise we'll get NaN errors when we try to do math.
+	equity = deFormatNumber(equityNumBox.value)/100;
+	salary = deFormatNumber(salaryNumBox.value);
+	companyValue = deFormatNumber(valueNumBox.value);
+	vMultiplier = deFormatNumber(vMultiplierBox.value)/100;
+	salaryMultiplier = deFormatNumber(salaryMultiplierBox.value)/100;
+	companyProfit = deFormatNumber(companyProfitBox.value)/100;
 
-	equity = equityNumBox.value/100;
-	salary = salaryNumBox.value;
-	companyValue = valueNumBox.value;
-	vMultiplier = vMultiplierBox.value/100;
-	salaryMultiplier = salaryMultiplierBox.value/100;
-	companyProfit = companyProfitBox.value/100;
-
-	// One last bit of housekeeping before we start crunching numbers - let's permanently remove any tooltips, if they're around:
+	// One last bit of housekeeping before we start crunching numbers - let's permanently remove any tooltips, and unhide all input text boxes:
 	hasCalculationSuccessfullyOccuredYet = true;
 	for (i = 0; i < allHintParas.length; i++) {
 		allHintParas[i].classList.add('hiddenPara'); // Hide any tooltips that were visible
 	}
 
+	for (i = 0; i < allInputGroups.length; i++) {
+		allInputGroups[i].classList.remove('hiddenPara') // Unhide all the input boxes
+	}
+
+	
+
 	// run this version of the equuation if the 'equity' button is checked
 	if (equityRadio.checked) {
 		equity = (1 - (1/(1 + vMultiplier)))/(1+companyProfit) - salary*(salaryMultiplier+1)/companyValue;
 
-		equityNumBox.value = round(equity*100, 4);
+		equityNumBox.value = round(equity*100, 3);
 		pulseElement(equityNumBox);
 		equityNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
+		equityNumBox.classList.remove('thisNumberNotComputed');
 
 	} else if (salaryRadio.checked) { // run this version of the equuation if the 'salary' button is checked
 		salary = (equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*companyValue*-1/(1+salaryMultiplier);
@@ -387,6 +533,7 @@ function solveGrahamEquation(verboseErrors) {
 		salaryNumBox.value = round(salary, 0);
 		pulseElement(salaryNumBox);
 		salaryNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
+		salaryNumBox.classList.remove('thisNumberNotComputed');
 
 	} else if (valueRadio.checked) { // run this version of the equuation if the 'value' button is checked
 		companyValue = 1/(equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*-1*salary*(1+salaryMultiplier);
@@ -394,6 +541,7 @@ function solveGrahamEquation(verboseErrors) {
 		valueNumBox.value = round(companyValue, 0);
 		pulseElement(valueNumBox);
 		valueNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
+		valueNumBox.classList.remove('thisNumberNotComputed');
 
 	} else if (vMultiplierRadio.checked) { // run this version of the equuation if the 'valuation multiplier' button is checked
 		vMultiplier = 1/(((equity + salary*(salaryMultiplier+1)/companyValue)*(companyProfit+1) - 1)*(-1))-1;
@@ -401,7 +549,10 @@ function solveGrahamEquation(verboseErrors) {
 		vMultiplierBox.value = round(vMultiplier*100, 2);
 		pulseElement(vMultiplierBox);
 		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
+		vMultiplierBox.classList.remove('thisNumberNotComputed');
 	}
+
+	formatInputBoxes('all');
 
 }
 

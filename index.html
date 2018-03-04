@@ -12,6 +12,10 @@
     </script>
 
 
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="An easy-to-use calculator for determining how much equity/salary a new employee should be offered, via the Graham Equation.">
@@ -31,13 +35,13 @@
 
     <div class="container">
       <header class="header clearfix">
-        <h3 class="text-muted">The Graham Equation Calculator</h3>
+        <h3 class="text-muted">The Paul Graham Equity Equation Calculator</h3>
       </header>
 
       <main role="main">
 
         <div class="jumbotron">
-          <h1 class="display-3">The Graham Equation</h1>
+          <h1 class="display-3">The Graham Equity Equation</h1>
 
           <img class=equationImage src="GrahamEqImgSolveForEquity.png">
 
@@ -45,12 +49,20 @@
 
           <br>
           <p class="lead">...is a mathematical method <a href="http://paulgraham.com/equity.html">proposed by Paul Graham</a> for determining a reasonable portion of equity to offer an employee or investor.</p>
-        </div>
+
+<!--           <p>Graham published the equation a couple years after he co-founded Y Combinator.  It computes a suggested equity stake and salary for a new employee/investor as a function of the added value they're expected to bring to the company.</p>
+ -->        </div>
 
         <div class="row marketing">
           <div class="col-lg-8">
-            <h4>The Graham equation involves the 4 variables below.  By providing any 3 of these numbers, you can solve for the 4th number.</h4>
-            <br>
+
+
+            <p>Graham published the equation a couple years after he co-founded Y Combinator.  It can be used to compute a suggested equity stake and salary for a new employee as a function of the added value they're expected to bring to the company.</p>
+
+            <p>You can read an in-depth explanation of how the equation works in Paul Graham's original blog post <a href="http://paulgraham.com/equity.html">here</a>.  I'd also recommend <a href="https://blog.keen.io/how-i-negotiated-my-startup-compensation-a291a9fb20a8">this excellent article from Michelle Wetzler</a>, which provides a walkthorugh of three different methods she used to evaluate her job offer - the Graham Equation, as well as two alternatives.</p>
+
+            <p>The equation involves the 4 variables below.  By providing any 3 of these numbers, you can solve for the 4th number.</p>
+            
 
             <h3>Which number would you like to calculate?</h3>
 
@@ -74,11 +86,11 @@
 
                   </td>
 
-                  <td class="bordered inputTD">
+                  <td class="bordered inputTD hiddenCell">
 
                     <div class="input-group">
 
-                      <input type=number id=equityNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                      <input type=text id=equityNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                       <span class="input-group-addon">%</span>
                     </div>
                       <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
@@ -101,12 +113,12 @@
                     </table>
                   </td>
 
-                  <td class="bordered inputTD">
+                  <td class="bordered inputTD hiddenCell">
 
                     <div class="input-group">
                       
                       <span class="input-group-addon">$</span> 
-                      <input type=number id=salaryNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                      <input type=text id=salaryNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                     </div>
                     <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
                               
@@ -129,12 +141,12 @@
                     </table>
                   </td>
 
-                  <td class="bordered inputTD">
+                  <td class="bordered inputTD hiddenCell">
 
                     <div class="input-group">
                       
                       <span class="input-group-addon">$</span> 
-                      <input type=number id=valueNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                      <input type=text id=valueNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                     </div>
                     <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
                               
@@ -144,23 +156,38 @@
 
 
                 <tr>
-                  <td class="bordered leadingTD">
+                  <td class="bordered leadingTD ">
                     <input type="radio" class=glowingUntilClicked name="outputRadio" id="vMultiplierRadio" >
                   </td>
 
                   <td class="bordered">
                     <table>
                       <tr><td><h4>THE NEW HIRE'S "VALUATION MULTIPLIER"</h4></td></tr>
-                      <tr><td>By what percentage will the company's valuation increase due to hiring this person?</td></tr>
+                      <tr><td>
+
+                        By what percentage will the company's valuation increase due to hiring this person?  
+
+                        <a data-toggle="collapse" data-target="#demo">Click here for more.</a>
+                          <div id="demo" class="collapse out expandableTooltip">
+                            <small><p>It can be hard to come up with this number. Think of it this way: startups only hire new people if they believe that adding them to the team will make the company more valuable. Every new hire brings something to the table - maybe they're a great engineer who will help them build a great product, or a really persuasive marketer who will help them boost sales, or an awesome janitor who will make the office a wonderfully clean place to work.  Their labor is worth something, and the company will be better off for hiring them.</p>
+                            
+                            <p>For this number, try to guess <em>how much</em> better off they will be, as a percentage.  If the new hire has some skills that are especially valuable and rare, or if they're joining a very small team, this number may be on the higher end - perhaps 10-30%.  Otherwise, perhaps it's just 1% or 5%.  Ultimately it's a guesstimate, but don't be modest!</p>
+                            <p><a data-toggle="collapse" data-target="#demo">Click here to collapse this text.</a></p></small>
+                          </div>
+
+
+
+
+                      </td></tr>
 
                     </table>
                   </td>
 
-                  <td class="bordered inputTD">
+                  <td class="bordered inputTD hiddenCell">
 
                     <div class="input-group">
                       
-                      <input type=number id=vMultiplierBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
+                      <input type=text id=vMultiplierBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                       <span class="input-group-addon">%</span> 
                     </div>
                     <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
@@ -171,6 +198,8 @@
                 </tr>    
 
               </table>
+
+
 
               <br>
 
@@ -198,14 +227,14 @@
           </div>
 
           <div class="col-lg-4">
-            <h4>Advanced Parameters</h4>
+            <h4>Advanced Parameters <small>(optional)</small></h4>
             <p>The "salary multiplier" and "company's profit" parameters are important inputs in the equation.  I’m using Paul Graham’s example values by default, but feel free to tweak them.  If you come to regret your tinkering, <a id=resetToDefaultLink href="javascript:void(0);">click here</a> to reset these two paramenters back to their defaults.</p>
 
             <table id=salaryMultTable class=advParamTable>
             
               <tr>
                 <td class="bordered leadingTD">
-                  <h4>Salary Multiplier</h4>
+                  <h4>Salary Multiplier <small>(optional)</small></h4>
 
                   <div id=salaryMultiplierBoxGroup class="input-group">
                     <input type=number id=salaryMultiplierBox class="form-control numberInputBox" max="10000" min="0">
@@ -225,7 +254,7 @@
             
               <tr>
                 <td class="bordered leadingTD">
-                  <h4>Company's Profit</h4>
+                  <h4>Company's Profit <small>(optional)</small></h4>
 
                   <div class="input-group">
                     
@@ -248,7 +277,7 @@
 
             <h2>Howdy!</h1>
             <p>I'm Steve Trambert.  The Graham Equation was helpful to me in negotiating my last job offer, and I hope you find it similarly useful!</p>
-            <p>I built this tool while teaching myself javascript and HTML/CSS, so if you have any feedback, I'd love to hear from you.  Feel free to send suggestions, friendly criticism, questions, or death threats to <a href="mailto:grahamEquation@trambert.com">grahamEquation@trambert.com</a>.</p>
+            <p>I built this tool while teaching myself javascript and HTML/CSS, so if you have any feedback, I'd love to hear from you.  Feel free to send me suggestions, friendly criticism, questions, or death threats at <a href="mailto:grahamEquation@trambert.com">grahamEquation@trambert.com</a>.</p>
 
             <p>I don't accept donations myself, but if you found this page helpful and you want to make my day, I'd be very grateful if you would make a donation to my favorite charity, <a href="https://grabify.link/WVCWTJ">GiveDirectly.</a> GiveDirectly is a lean organization working on an relatively novel approach to international charity, experimenting with direct cash-transfers to low-income individuals.  You can find their donation page <a href="https://grabify.link/J800OP">here,</a> or you can listen to an episode of the Planet Money podcast covering their work <a href="https://grabify.link/T7N0CV">here.</a></p>
 

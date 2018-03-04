@@ -34,8 +34,8 @@ body {
 
 .equationImage {
   margin: 1rem auto;
-  width: 50%;
-  min-width: 20rem;
+  width: 75%;
+  min-width: 30rem;
 /*  padding: 5px;
   border: 1px solid black;*/
 
@@ -65,6 +65,7 @@ td {
 
 .inputTD {
   min-width: 15rem;
+  transition: all 0.3s ease-in-out;
 }
 
 
@@ -164,6 +165,10 @@ td {
   font-weight: bold;
 }
 
+.thisNumberNotComputed {
+  color: #c3d0e5;
+}
+
 #errorTextBox {
   font-weight: bold;
   color: red;
@@ -181,6 +186,17 @@ td {
 
 .hiddenPara{
   display:none;
+}
+
+.expandableTooltip {
+  font-size: 0.95em;
+  color: purple;
+}
+
+
+.hiddenCell {
+   display:none;
+    
 }
 
 
