@@ -129,9 +129,9 @@ function outputRadioClickHandler() {
 
 
 // Add listeners to every input boxes that cause the tool to automatically recalculate every time the user edits values.
-for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
-	allInputBoxesIncludingAdvancedParams[i].addEventListener("change", function() {solveGrahamEquation(false)});
-}
+// for (i=0; i<allInputBoxesIncludingAdvancedParams.length; i++) {
+// 	allInputBoxesIncludingAdvancedParams[i].addEventListener("change", function() {solveGrahamEquation(false)});
+// }
 
 
 // The error that pops up when users have left boxes unfilled offers them a link they can click to set all empty boxes to zero.  THis is the function that link calls.
