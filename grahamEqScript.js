@@ -158,9 +158,11 @@ function inputBoxChangeHandler() {
 			if (allInputBoxesIncludingAdvancedParams[q].classList.contains('thisNumberWasComputed')) {
 				allInputBoxesIncludingAdvancedParams[q].classList.add('thisNumberNotComputed')
 				turnRecalcParaOn(q, true);
+				console.log('tried to turn on recalc para ' + q);
 			}
+			else
 			allInputBoxesIncludingAdvancedParams[q].classList.remove('thisNumberWasComputed') // Automatically remove all bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
-			turnRecalcParaOn(q, false);
+			
 		}
 }
 
@@ -288,6 +290,14 @@ function deFormatNumber(n) {
 
 
 function turnRecalcParaOn(paraNumber, trueForOnFalseForOff) {
+	
+	if (paraNumber > allRecalcParas.length-1) {
+		console.log('oversize');
+		return
+	}
+
+	console.log(paraNumber);
+
 	if (!trueForOnFalseForOff) {
 		allRecalcParas[paraNumber].classList.add('hiddenPara');
 	}
@@ -297,6 +307,7 @@ function turnRecalcParaOn(paraNumber, trueForOnFalseForOff) {
 			allRecalcParas[paraNumber].classList.remove('hiddenPara');
 		}
 	}
+
 }
 
 
