@@ -29,6 +29,10 @@
 
     <!-- Custom styles for this template -->
     <link href="index.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
+
+
   </head>
 
   <body>
@@ -55,16 +59,59 @@
 
         <div class="row marketing">
           <div class="col-lg-8">
+           
 
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"><i class="fas fa-plus"></i> Who is this Paul Graham guy?</a>
+                  </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                  <div class="panel-body">Paul Graham is a guy with a lot of entrepreneurial feathers in his cap.  He's one of the co-founders of Y-Combinator and the creator of Hacker News.  He's also a prolific blogger on subjects of computer science and tech entrepreneurship.</div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"><i class="fas fa-plus"></i> How does the Graham Equity Equation work?</a>
+                  </h4>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                  <div class="panel-body">
+                   <p>The Graham Equity Equation attempts to determine the amount of equity/salary that would "balance out" the added value that a new employee is expected to bring to a company.</p>
 
-            <p>Graham published the equation a couple years after he co-founded Y Combinator.  It can be used to compute a suggested equity stake and salary for a new employee as a function of the added value they're expected to bring to the company.</p>
+                    <p>You can read an in-depth explanation of how the equation works in Paul Graham's original blog post <a href="http://paulgraham.com/equity.html">here</a>.  I'd also recommend <a href="https://blog.keen.io/how-i-negotiated-my-startup-compensation-a291a9fb20a8">this excellent article from Michelle Wetzler</a>, which provides a walkthorugh of three different methods she used to evaluate her job offer.  Her article is especially helpful because - in addition to covering the Graham Equity Equation - it also explores two alternatives for determining equity.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"><i class="fas fa-plus"></i> Can you walk me through an example?</a>
+                  </h4>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <p>Sure!</p>
 
-            <p>You can read an in-depth explanation of how the equation works in Paul Graham's original blog post <a href="http://paulgraham.com/equity.html">here</a>.  I'd also recommend <a href="https://blog.keen.io/how-i-negotiated-my-startup-compensation-a291a9fb20a8">this excellent article from Michelle Wetzler</a>, which provides a walkthorugh of three different methods she used to evaluate her job offer - the Graham Equation, as well as two alternatives.</p>
+                    <p>Imagine that you're a mid-level embedded software programmer, and you've been offered a spot as the 5th employee at a small, early-stage startup.  The startup hasn't received series-A funding, but early seed investments have put their valuation at $10 million.  You think that's optimistic, but plausible.  After reviewing your budget, you decide that you need $60k/year to live comfortably, and past that you'd like all your compensation to come in the form of equity.</p>
+
+                    <p>The last thing you need to decide is your "valuation multiplier."  On the one hand, you're an early employer, and embedded programmers are hard to come by.  On the other hand, you're not a senior-level programmer yet, and you don't have experience designing firmware for the kind of hardware that this startup will be manufacturing.  So, you finally decide that adding you to the team will make the company appear roughly 10% more valuable to investors.</p>
+
+                    <p>Now you're ready to use the Graham Equity Equation to calculate how much equity you should be offered!  Click this button to fill the calculator with the <small><button type="button" class="btn btn-xs btn-primary" id="exampleButton" onclick="fillExampleNumbers()">example numbers</button></small> for this hypothetical embedded software developer.</p>
+                  </div>
+                </div>
+              </div>
+            </div> 
 
             <p>The equation involves the 4 variables below.  By providing any 3 of these numbers, you can solve for the 4th number.</p>
             
 
             <h3>Which number would you like to calculate?</h3>
+
+            <br>
 
 
             <div>
@@ -94,6 +141,7 @@
                       <span class="input-group-addon">%</span>
                     </div>
                       <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
+                      <div class="recalculatePara hiddenPara"><p>Hit "Calculate!" to update this number.</p></div>
 
                   </td>
 
@@ -121,6 +169,7 @@
                       <input type=text id=salaryNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                     </div>
                     <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
+                    <div class="recalculatePara hiddenPara"><p>Hit "Calculate!" to update this number.</p></div>
                               
                   </td>
 
@@ -149,6 +198,7 @@
                       <input type=text id=valueNumBox name=varInputBox class="form-control numberInputBox" max="1000000" min="0">
                     </div>
                     <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
+                    <div class="recalculatePara hiddenPara"><p>Hit "Calculate!" to update this number.</p></div>
                               
                   </td>
 
@@ -171,7 +221,11 @@
                           <div id="demo" class="collapse out expandableTooltip">
                             <small><p>It can be hard to come up with this number. Think of it this way: startups only hire new people if they believe that adding them to the team will make the company more valuable. Every new hire brings something to the table - maybe they're a great engineer who will help them build a great product, or a really persuasive marketer who will help them boost sales, or an awesome janitor who will make the office a wonderfully clean place to work.  Their labor is worth something, and the company will be better off for hiring them.</p>
                             
-                            <p>For this number, try to guess <em>how much</em> better off they will be, as a percentage.  If the new hire has some skills that are especially valuable and rare, or if they're joining a very small team, this number may be on the higher end - perhaps 10-30%.  Otherwise, perhaps it's just 1% or 5%.  Ultimately it's a guesstimate, but don't be modest!</p>
+                            <p>For this number, try to guess <em>how much</em> better off they will be, as a percentage.  If the new hire has some skills that are especially valuable and rare, or if they're joining a very small team, this number may be on the higher end - perhaps 10-30%.  Otherwise, common numbers are 1% or 5%.</p>
+
+                            <p> Another way to think of this: by adding you to the team, about how much more valuable will the company appear to investors?</p>
+
+                            <p>Ultimately this is a guesstimate, but don't be modest!</p>
                             <p><a data-toggle="collapse" data-target="#demo">Click here to collapse this text.</a></p></small>
                           </div>
 
@@ -191,6 +245,7 @@
                       <span class="input-group-addon">%</span> 
                     </div>
                     <div class="hintPara hiddenPara"><p>Got it! Now, fill in the other three numbers and hit "calculate."</p></div>
+                    <div class="recalculatePara hiddenPara"><p>Hit "Calculate!" to update this number.</p></div>
 
                               
                   </td>

@@ -21,6 +21,7 @@ var valueRadio = document.querySelector('#valueRadio');
 var vMultiplierRadio = document.querySelector('#vMultiplierRadio');
 var allOutputRadioButtons = document.getElementsByName('outputRadio');
 var allHintParas = document.querySelectorAll('.hintPara');
+var allRecalcParas = document.querySelectorAll('.recalculatePara');
 var allInputGroups = document.querySelectorAll('.input-group');
 
 // calling out the calculate and reset-to-default buttons
@@ -65,7 +66,15 @@ function pulseElement(elementToBePulsed) {
 }
 
 
+// This function is called when the user clicks the 'example numbers' button on the page.
+function fillExampleNumbers() {
+	equityRadio.click();
+	salaryNumBox.value = "60,000";
+	valueNumBox.value = "10,000,000";
+	vMultiplierBox.value = "10";
+	// solveGrahamEquation(false);
 
+}
 
 // This function fills in the "Advanced Parameters" input boxes with default values.  It is called at pageload and when the "reset to defaults" link is clicked.
 function setAdvancedParametersToDefaults() {
@@ -110,6 +119,7 @@ function outputRadioClickHandler() {
 			allVarInputTDs[i].classList.add('chosenOutput'); // We flag it as the "chosen output" as well.  The CSS causes the table item to have a green diagonal background.
 			allVarInputBoxes[i].classList.remove('errorGlow');
 			allVarInputBoxes[i].classList.add('thisNumberNotComputed'); // change the number to italics until it's been computed, to demonstrate that it is not an accurate number that the calculator produced.
+			turnRecalcParaOn(i, true);
 
 			// If the user hasn't made a successful calculation yet, we un-hide a small tooltip paragraph telling them to fill in the other 3 numbers.  You can find these hints in the HTML under the 'hintPara' class.
 			if (!hasCalculationSuccessfullyOccuredYet) {
@@ -126,6 +136,7 @@ function outputRadioClickHandler() {
 			allVarInputTDs[i].classList.remove('chosenOutput');
 
 			allHintParas[i].classList.add('hiddenPara'); // Hide any tooltips that were visible on previously-selected numbers
+			turnRecalcParaOn(i, false);
 			allInputGroups[i].classList.remove('hiddenPara') // Unhide the input box
 		}
 
@@ -144,7 +155,12 @@ function outputRadioClickHandler() {
 function inputBoxChangeHandler() {
 	console.log('change');
 	for (q=0; q<allInputBoxesIncludingAdvancedParams.length; q++) {
+			if (allInputBoxesIncludingAdvancedParams[q].classList.contains('thisNumberWasComputed')) {
+				allInputBoxesIncludingAdvancedParams[q].classList.add('thisNumberNotComputed')
+				turnRecalcParaOn(q, true);
+			}
 			allInputBoxesIncludingAdvancedParams[q].classList.remove('thisNumberWasComputed') // Automatically remove all bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
+			turnRecalcParaOn(q, false);
 		}
 }
 
@@ -271,6 +287,19 @@ function deFormatNumber(n) {
 }
 
 
+function turnRecalcParaOn(paraNumber, trueForOnFalseForOff) {
+	if (!trueForOnFalseForOff) {
+		allRecalcParas[paraNumber].classList.add('hiddenPara');
+	}
+
+	else { // We use an else statement rather than another conditional for true, so that this function defaults to turning the paragraph on.
+		if (hasCalculationSuccessfullyOccuredYet) {
+			allRecalcParas[paraNumber].classList.remove('hiddenPara');
+		}
+	}
+}
+
+
 
 // This is the big one.  Let's try solving the equation for the user!
 function solveGrahamEquation(verboseErrors) {
@@ -317,7 +346,6 @@ function solveGrahamEquation(verboseErrors) {
 
 
 
-
 // Check the equity input box for errors.
 	if (equityRadio.checked){ //If this box is checked, do nothing except clear the current value. We don't need to error-chek the current contents because they're being assigned.
 		equityNumBox.value = "";
@@ -336,7 +364,7 @@ function solveGrahamEquation(verboseErrors) {
 		thereIsAnError = true;
 		if (verboseErrors) {
 			equityNumBox.classList.add('errorGlow');
-			appendErrorMessage("The 'equity' number should be more than zero.");
+			appendErrorMessage("The 'equity' number shouldn't be negative.");
 		}
 	}
 	else if (equityNumBox.value == "") {
@@ -521,7 +549,10 @@ function solveGrahamEquation(verboseErrors) {
 	hasCalculationSuccessfullyOccuredYet = true;
 	for (i = 0; i < allHintParas.length; i++) {
 		allHintParas[i].classList.add('hiddenPara'); // Hide any tooltips that were visible
+		turnRecalcParaOn(i, false);
 	}
+
+
 
 	for (i = 0; i < allInputGroups.length; i++) {
 		allInputGroups[i].classList.remove('hiddenPara') // Unhide all the input boxes
@@ -537,6 +568,7 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(equityNumBox);
 		equityNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		equityNumBox.classList.remove('thisNumberNotComputed');
+
 
 	} else if (salaryRadio.checked) { // run this version of the equuation if the 'salary' button is checked
 		salary = (equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*companyValue*-1/(1+salaryMultiplier);
