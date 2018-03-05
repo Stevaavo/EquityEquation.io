@@ -256,7 +256,18 @@ function formatNumber(n, p, ts, dp) {
 }
 
 function deFormatNumber(n) {
-	return Number(n.replace(/\,/g,''));
+	var deFormattedNumber = n.replace(/\,/g,''); // remove all commas
+	
+	deFormattedNumber = deFormattedNumber.replace(/\$/g,''); // remove all dollar signs
+
+	deFormattedNumber = deFormattedNumber.replace(/\%/g,''); // remove all commas
+
+	// The code below converts the value from a String type variable to a Number type variable, but only if it really is a number.  Otherwise this function just returns it as a string.
+	if(!isNaN(deFormattedNumber)) {
+		deFormattedNumber = Number(deFormattedNumber);
+	}
+
+	return deFormattedNumber;
 }
 
 
