@@ -45,6 +45,24 @@ var hasTheUserChosenAnOutput = false;
 // Remains false until the first successful calculation is run, and then stays permanently true.  Used for showing/hiding tooltips (see 'hintPara' class members).
 var hasCalculationSuccessfullyOccuredYet = false;
 
+var trackOutboundClick = function(url) { // This code reports to Google Analytics when someone clicks an outbound link on my page (via OnClick handlers in the HTML), and then send the user on to the outbound site.  Adapted from the code here: https://support.google.com/analytics/answer/7478520?hl=en
+  gtag('event', 'click', {
+    'event_category': 'outbound',
+    'event_label': url,
+    'transport_type': 'beacon',
+    'event_callback': function(){window.open(url, '_blank');} // Note: user is sent to the URL in a new tab
+  });
+}
+
+
+var trackGtagEvent = function(eventCategory, eventLabel) { // This is a more general function for tracking events in my Javascript through Google Analytics
+  gtag('event', 'click', {
+    'event_category': eventCategory,
+    'event_label': eventLabel,
+    'transport_type': 'beacon'
+  });
+}
+
 
 // This function causes an element to "pulse" green.  It is used when the javascript fills in valus (after calculating or resetting parameters to defaults)
 function pulseElement(elementToBePulsed) {
@@ -73,6 +91,7 @@ function fillExampleNumbers() {
 	valueNumBox.value = "10,000,000";
 	vMultiplierBox.value = "10";
 	// solveGrahamEquation(false);
+	trackGtagEvent('FeatureUsed', 'FilledExampleNumbers');
 
 }
 
@@ -120,6 +139,7 @@ function outputRadioClickHandler() {
 			allVarInputBoxes[i].classList.remove('errorGlow');
 			allVarInputBoxes[i].classList.add('thisNumberNotComputed'); // change the number to italics until it's been computed, to demonstrate that it is not an accurate number that the calculator produced.
 			turnRecalcParaOn(i, true);
+			trackGtagEvent('radioClick', i); // Record which radio button was clicked in my Google Analytics
 
 			// If the user hasn't made a successful calculation yet, we un-hide a small tooltip paragraph telling them to fill in the other 3 numbers.  You can find these hints in the HTML under the 'hintPara' class.
 			if (!hasCalculationSuccessfullyOccuredYet) {
@@ -153,12 +173,10 @@ function outputRadioClickHandler() {
 // }
 
 function inputBoxChangeHandler() {
-	console.log('change');
 	for (q=0; q<allInputBoxesIncludingAdvancedParams.length; q++) {
 			if (allInputBoxesIncludingAdvancedParams[q].classList.contains('thisNumberWasComputed')) {
 				allInputBoxesIncludingAdvancedParams[q].classList.add('thisNumberNotComputed')
 				turnRecalcParaOn(q, true);
-				console.log('tried to turn on recalc para ' + q);
 			}
 			else
 			allInputBoxesIncludingAdvancedParams[q].classList.remove('thisNumberWasComputed') // Automatically remove all bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
@@ -235,6 +253,7 @@ function appendErrorMessage(errorMessage) {
 	var newErrorP = document.createElement('p');
 	newErrorP.innerHTML = errorMessage;
 	errorTextBox.appendChild(newErrorP);
+	trackGtagEvent('CalcErrorMessageGivenToUser', errorMessage);
 }
 
 
@@ -251,9 +270,18 @@ function round(value, decimals) {
 //   If p < 0 or p > 20 results are implementation dependent.
 function formatNumber(n, p, ts, dp) {
 
+	n = deFormatNumber(n); // This allows the number to reformatted if - for example - the user adds a zero to a number that's already been formatted, i.e. changing $200,000 to $200,0000
+
 	if (isNaN(n) || n < 0) {
+
+			if (n<0) { // I'm curious about whether users frequently get negative number results from the calculator.  This reports those results to Google Analytics.
+				trackGtagEvent('NegativeNumberResult', n.toString());
+			}
+
 		return n;
 	}
+
+
 
   var t = [];
   // Get arguments, set defaults
@@ -291,12 +319,10 @@ function deFormatNumber(n) {
 
 function turnRecalcParaOn(paraNumber, trueForOnFalseForOff) {
 	
-	if (paraNumber > allRecalcParas.length-1) {
-		console.log('oversize');
+	if (paraNumber > allRecalcParas.length-1) { // Throws an error if we try to turn on non-existent recalc paras (for example, if we're dealing with one of the advanced parameter boxes)
 		return
 	}
 
-	console.log(paraNumber);
 
 	if (!trueForOnFalseForOff) {
 		allRecalcParas[paraNumber].classList.add('hiddenPara');
@@ -406,7 +432,6 @@ function solveGrahamEquation(verboseErrors) {
 	else if (salaryNumBox.value == "") {
 		thereIsAnError = true;
 		thereAreUnfilledBoxes = true;
-		console.log('salary unfilled');
 
 		if (verboseErrors) {
 			salaryNumBox.classList.add('errorGlow');
@@ -543,6 +568,7 @@ function solveGrahamEquation(verboseErrors) {
 	}
 
 	if (thereIsAnError) {
+		trackGtagEvent('CalculateButtonClick', 'ErroredOutWithoutCalculation');
 		return; // If there was an error, we end the function here without actually calculating anything.
 	}
 
@@ -605,6 +631,8 @@ function solveGrahamEquation(verboseErrors) {
 		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		vMultiplierBox.classList.remove('thisNumberNotComputed');
 	}
+
+	trackGtagEvent('CalculateButtonClick', 'SuccessfulCalculationPerformed');
 
 	formatInputBoxes('all');
 
