@@ -18,7 +18,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="An easy-to-use calculator for determining how much equity/salary a new employee should be offered, via the Graham Equation.">
+    <meta name="description" content="An easy-to-use calculator for determining how much equity/salary a new employee should be offered, via the Graham Equity Equation.">
     <meta name="author" content="Steve Trambert">
     <link rel="icon" href="favicon.ico">
 
@@ -52,7 +52,7 @@
 
 
           <br>
-          <p class="lead">...is a mathematical method <a href="http://paulgraham.com/equity.html">proposed by Paul Graham</a> for determining a reasonable portion of equity to offer an employee or investor.</p>
+          <p class="lead">...is a mathematical method <a href="http://paulgraham.com/equity.html" target="_blank">proposed by Paul Graham</a> for determining a reasonable portion of equity to offer an employee or investor.</p>
 
 <!--           <p>Graham published the equation a couple years after he co-founded Y Combinator.  It computes a suggested equity stake and salary for a new employee/investor as a function of the added value they're expected to bring to the company.</p>
  -->        </div>
@@ -69,9 +69,10 @@
                   </h4>
                 </div>
                 <div id="collapse1" class="panel-collapse collapse">
-                  <div class="panel-body">Paul Graham is a guy with a lot of entrepreneurial feathers in his cap.  He's one of the co-founders of Y-Combinator and the creator of Hacker News.  He's also a prolific blogger on subjects of computer science and tech entrepreneurship.</div>
+                  <div class="panel-body">Paul Graham is a person with some entrepreneurial feathers in his cap.  He's one of the co-founders of <a href"https://www.forbes.com/sites/tomiogeron/2012/04/30/top-tech-incubators-as-ranked-by-forbes-y-combinator-tops-with-7-billion-in-value/#334d275651f3" target="_blank">Y Combinator</a>, a computer programmer specializing in Lisp, and the creator of <a href="https://techcrunch.com/2013/05/18/the-evolution-of-hacker-news/" target="_blank">Hacker News</a>.  He's also a prolific blogger on subjects of computer science and tech entrepreneurship.</div>
                 </div>
               </div>
+
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
@@ -82,10 +83,11 @@
                   <div class="panel-body">
                    <p>The Graham Equity Equation attempts to determine the amount of equity/salary that would "balance out" the added value that a new employee is expected to bring to a company.</p>
 
-                    <p>You can read an in-depth explanation of how the equation works in Paul Graham's original blog post <a href="http://paulgraham.com/equity.html">here</a>.  I'd also recommend <a href="https://blog.keen.io/how-i-negotiated-my-startup-compensation-a291a9fb20a8">this excellent article from Michelle Wetzler</a>, which provides a walkthorugh of three different methods she used to evaluate her job offer.  Her article is especially helpful because - in addition to covering the Graham Equity Equation - it also explores two alternatives for determining equity.</p>
+                    <p>You can read an in-depth explanation of how the equation works in Paul Graham's original blog post <a href="http://paulgraham.com/equity.html" target="_blank">here</a>.  I'd also recommend <a href="https://blog.keen.io/how-i-negotiated-my-startup-compensation-a291a9fb20a8" target="_blank">this excellent article from Michelle Wetzler</a>, which provides a walkthorugh of three different methods she used to evaluate her own job offer.  Her article is especially helpful because - in addition to covering the Graham Equity Equation - it also explores two alternatives for determining compensation.</p>
                   </div>
                 </div>
               </div>
+
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
@@ -98,9 +100,28 @@
 
                     <p>Imagine that you're a mid-level embedded software programmer, and you've been offered a spot as the 5th employee at a small, early-stage startup.  The startup hasn't received series-A funding, but early seed investments have put their valuation at $10 million.  You think that's optimistic, but plausible.  After reviewing your budget, you decide that you need $60k/year to live comfortably, and past that you'd like all your compensation to come in the form of equity.</p>
 
-                    <p>The last thing you need to decide is your "valuation multiplier."  On the one hand, you're an early employer, and embedded programmers are hard to come by.  On the other hand, you're not a senior-level programmer yet, and you don't have experience designing firmware for the kind of hardware that this startup will be manufacturing.  So, you finally decide that adding you to the team will make the company appear roughly 10% more valuable to investors.</p>
+                    <p>The last thing you need to decide is your "valuation multiplier."  On the one hand, you're an early employee, and embedded programmers are hard to come by.  On the other hand, you're not a senior-level programmer yet, and you don't have experience designing firmware for the kind of hardware that this startup will be manufacturing.  So, you finally decide that adding you to the team will make the company appear roughly 10% more valuable to investors.</p>
 
                     <p>Now you're ready to use the Graham Equity Equation to calculate how much equity you should be offered!  Click this button to fill the calculator with the <small><button type="button" class="btn btn-xs btn-primary" id="exampleButton" onclick="fillExampleNumbers()">example numbers</button></small> for this hypothetical embedded software developer.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse4"><i class="fas fa-plus"></i> The calculator gave me a negative number. What does that mean?</a>
+                  </h4>
+                </div>
+                <div id="collapse4" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <p>If the calculator computes a negative number for equity, salary, or company valuation, it's essentially telling you that the company will lose money on this hire.  For example, if the calculator computes a negative number for equity, it's telling you that the employee should not receive any equity, because the salary you specified is already more than this employee deserves.</p>
+
+                    <p>In that case, to justify their hiring, the employee should either take a lower salary, or they need to bring more value to the company (which would be reflected in the equation as a higher valuation multiplier).  You could also try reducing the "salary multiplier" or "company's profit" advanced parameters.</p>
+
+                    <p>Likewise, if the calculator computes a negative number for salary, it's telling you that the employee is already being paid more than they're worth in equity, and they would effectively need to <em>pay money to the company</em> to justify getting that equity.</p>
+
+                    <p>Getting a negative number for the company valuation means something a little different.  It specifically means that the employee is being given too much equity - more than their valuation multiplier could ever justify, no matter how valuable the company is.</p>
                   </div>
                 </div>
               </div>
@@ -318,7 +339,7 @@
 
                   </div>
 
-                  <p>If you set this to zero, the Graham Equation would tell you how much equity an employee should receive in order to leave the company neither any better nor worse-off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  No company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
+                  <p>If you set this to zero, the Graham Equation would tell you how much equity/salary an employee should receive in order to leave the company neither any better nor worse-off than they were before they hired him/her.  When you don’t account for profit, the Graham Equation calculates the “break even” number.  No company is interested in merely breaking even on a new hire, so this parameter specifies how much profit they want to make on their new employee.</p>
                 </td>
               </tr>
 
@@ -347,7 +368,7 @@
       </main>
 
       <footer class="footer">
-        <p>&copy; Steve Trambert 2018</p>
+        <p>&copy; <a href="http://www.trambert.com" target="_blank">Steve Trambert</a> 2018</p>
       </footer>
 
     </div> <!-- /container -->

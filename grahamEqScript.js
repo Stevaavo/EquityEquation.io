@@ -251,7 +251,7 @@ function round(value, decimals) {
 //   If p < 0 or p > 20 results are implementation dependent.
 function formatNumber(n, p, ts, dp) {
 
-	if (isNaN(n)) {
+	if (isNaN(n) || n < 0) {
 		return n;
 	}
 
