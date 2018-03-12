@@ -595,6 +595,9 @@ function solveGrahamEquation(verboseErrors) {
 		allInputGroups[i].classList.remove('hiddenPara') // Unhide all the input boxes
 	}
 
+	// Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+	
+
 	
 
 	// run this version of the equuation if the 'equity' button is checked
@@ -605,6 +608,7 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(equityNumBox);
 		equityNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		equityNumBox.classList.remove('thisNumberNotComputed');
+		equityNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 
 
 	} else if (salaryRadio.checked) { // run this version of the equuation if the 'salary' button is checked
@@ -614,6 +618,7 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(salaryNumBox);
 		salaryNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		salaryNumBox.classList.remove('thisNumberNotComputed');
+		salaryNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 
 	} else if (valueRadio.checked) { // run this version of the equuation if the 'value' button is checked
 		companyValue = 1/(equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*-1*salary*(1+salaryMultiplier);
@@ -622,6 +627,7 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(valueNumBox);
 		valueNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		valueNumBox.classList.remove('thisNumberNotComputed');
+		valueNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 
 	} else if (vMultiplierRadio.checked) { // run this version of the equuation if the 'valuation multiplier' button is checked
 		vMultiplier = 1/(((equity + salary*(salaryMultiplier+1)/companyValue)*(companyProfit+1) - 1)*(-1))-1;
@@ -630,6 +636,7 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(vMultiplierBox);
 		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		vMultiplierBox.classList.remove('thisNumberNotComputed');
+		vMultiplierBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 	}
 
 	trackGtagEvent('CalculateButtonClick', 'SuccessfulCalculationPerformed');
