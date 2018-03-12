@@ -55,8 +55,8 @@ var trackOutboundClick = function(url) { // This code reports to Google Analytic
 }
 
 
-var trackGtagEvent = function(eventCategory, eventLabel) { // This is a more general function for tracking events in my Javascript through Google Analytics
-  gtag('event', 'click', {
+var trackGtagEvent = function(eventCategory = 'noCatSpecified', eventAction = 'noActionSpecified', eventLabel = 'noLabelSpecified') { // This is a more general function for tracking events in my Javascript through Google Analytics
+  gtag('event', eventAction, {
     'event_category': eventCategory,
     'event_label': eventLabel,
     'transport_type': 'beacon'
@@ -610,6 +610,14 @@ function solveGrahamEquation(verboseErrors) {
 		equityNumBox.classList.remove('thisNumberNotComputed');
 		equityNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 
+		if (equity*100 < 0) {trackGtagEvent('computedNumber', 'equity', 'negative');} else
+		if (equity*100 <= 0.5) {trackGtagEvent('computedNumber', 'equity', 'lessThanPoint5');} else
+		if (equity*100 <= 1) {trackGtagEvent('computedNumber', 'equity', 'PointFiveTo1');} else
+		if (equity*100 <= 5) {trackGtagEvent('computedNumber', 'equity', '1to5');} else
+		if (equity*100 <= 10) {trackGtagEvent('computedNumber', 'equity', '5to10');} else
+		if (equity*100 <= 15) {trackGtagEvent('computedNumber', 'equity', '10to15');} else
+		if (equity*100 <= 20) {trackGtagEvent('computedNumber', 'equity', '15to20');}
+		else {trackGtagEvent('computedNumber', 'equity', (round(equity*100/10, 0)*10).toString())}  // If more than 20pct, we round to nearest 10 and log that
 
 	} else if (salaryRadio.checked) { // run this version of the equuation if the 'salary' button is checked
 		salary = (equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*companyValue*-1/(1+salaryMultiplier);
@@ -620,6 +628,14 @@ function solveGrahamEquation(verboseErrors) {
 		salaryNumBox.classList.remove('thisNumberNotComputed');
 		salaryNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 
+		if (salary < 0) {trackGtagEvent('computedNumber', 'salary', 'negative');} else
+		if (salary <= 10000) {trackGtagEvent('computedNumber', 'salary', 'lessThan10k');} else
+		if (salary <= 20000) {trackGtagEvent('computedNumber', 'salary', '10to20k');} else
+		if (salary <= 25000) {trackGtagEvent('computedNumber', 'salary', '20to25k');} else
+		if (salary <= 30000) {trackGtagEvent('computedNumber', 'salary', '5to10');} else
+		if (salary <= 150000) {trackGtagEvent('computedNumber', 'salary', (round(salary/10000, 0)*10000).toString());} else // If more than 3k and less than 150k, we round to nearest 10k and log that
+		{trackGtagEvent('computedNumber', 'salary', (round(salary/100000, 0)*100000).toString());}  // If more than 150k, we round to nearest 100k and log that
+
 	} else if (valueRadio.checked) { // run this version of the equuation if the 'value' button is checked
 		companyValue = 1/(equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*-1*salary*(1+salaryMultiplier);
 
@@ -629,6 +645,17 @@ function solveGrahamEquation(verboseErrors) {
 		valueNumBox.classList.remove('thisNumberNotComputed');
 		valueNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 
+		if (companyValue < 0) {trackGtagEvent('computedNumber', 'companyValue', 'negative');} else
+		if (companyValue <= 100000) {trackGtagEvent('computedNumber', 'companyValue', 'lessThan100k');} else
+		if (companyValue <= 500000) {trackGtagEvent('computedNumber', 'companyValue', '100to500k');} else
+		if (companyValue <= 1000000) {trackGtagEvent('computedNumber', 'companyValue', '500kTo1mln');} else
+		if (companyValue <= 5000000) {trackGtagEvent('computedNumber', 'companyValue', '1to5mln');} else
+		if (companyValue <= 10000000) {trackGtagEvent('computedNumber', 'companyValue', '5to10mln');} else
+		if (companyValue <= 20000000) {trackGtagEvent('computedNumber', 'companyValue', '10to20mln');} else
+		if (companyValue <= 50000000) {trackGtagEvent('computedNumber', 'companyValue', '20to50mln');} else
+		if (companyValue <= 100000000) {trackGtagEvent('computedNumber', 'companyValue', '50to100mln');}
+		else {trackGtagEvent('computedNumber', 'companyValue', (round(companyValue/100000000, 0)*1000000).toString()+'mln');}  // If more than 100mln, we round to nearest 100mln and log that
+
 	} else if (vMultiplierRadio.checked) { // run this version of the equuation if the 'valuation multiplier' button is checked
 		vMultiplier = 1/(((equity + salary*(salaryMultiplier+1)/companyValue)*(companyProfit+1) - 1)*(-1))-1;
 
@@ -637,7 +664,56 @@ function solveGrahamEquation(verboseErrors) {
 		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		vMultiplierBox.classList.remove('thisNumberNotComputed');
 		vMultiplierBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+	
+		if (vMultiplier*100 < 0) {trackGtagEvent('computedNumber', 'vMultiplier', 'negative');} else
+		if (vMultiplier*100 <= 0.5) {trackGtagEvent('computedNumber', 'vMultiplier', 'lessThanPoint5');} else
+		if (vMultiplier*100 <= 1) {trackGtagEvent('computedNumber', 'vMultiplier', 'PointFiveTo1');} else
+		if (vMultiplier*100 <= 5) {trackGtagEvent('computedNumber', 'vMultiplier', '1to5');} else
+		if (vMultiplier*100 <= 10) {trackGtagEvent('computedNumber', 'vMultiplier', '5to10');} else
+		if (vMultiplier*100 <= 15) {trackGtagEvent('computedNumber', 'vMultiplier', '10to15');} else
+		if (vMultiplier*100 <= 20) {trackGtagEvent('computedNumber', 'vMultiplier', '15to20');}
+		else {trackGtagEvent('computedNumber', 'vMultiplier', (round(vMultiplier*100/10, 0)*10).toString());}  // If more than 20pct, we round to nearest 10 and log that
+
 	}
+
+	// For statistical purposes, I log the rough numbers computed/entered into the calculator
+	if (equity*100 < 0) {trackGtagEvent('numbersAfterCalculation', 'equity', 'negative');} else
+	if (equity*100 <= 0.5) {trackGtagEvent('numbersAfterCalculation', 'equity', 'lessThanPoint5');} else
+	if (equity*100 <= 1) {trackGtagEvent('numbersAfterCalculation', 'equity', 'PointFiveTo1');} else
+	if (equity*100 <= 5) {trackGtagEvent('numbersAfterCalculation', 'equity', '1to5');} else
+	if (equity*100 <= 10) {trackGtagEvent('numbersAfterCalculation', 'equity', '5to10');} else
+	if (equity*100 <= 15) {trackGtagEvent('numbersAfterCalculation', 'equity', '10to15');} else
+	if (equity*100 <= 20) {trackGtagEvent('numbersAfterCalculation', 'equity', '15to20');}
+	else {trackGtagEvent('numbersAfterCalculation', 'equity', (round(equity*100/10, 0)*10).toString());}  // If more than 20pct, we round to nearest 10 and log that
+
+	if (salary < 0) {trackGtagEvent('numbersAfterCalculation', 'salary', 'negative');} else
+	if (salary <= 10000) {trackGtagEvent('numbersAfterCalculation', 'salary', 'lessThan10k');} else
+	if (salary <= 20000) {trackGtagEvent('numbersAfterCalculation', 'salary', '10to20k');} else
+	if (salary <= 25000) {trackGtagEvent('numbersAfterCalculation', 'salary', '20to25k');} else
+	if (salary <= 30000) {trackGtagEvent('numbersAfterCalculation', 'salary', '5to10');} else
+	if (salary <= 150000) {trackGtagEvent('numbersAfterCalculation', 'salary', (round(salary/10000, 0)*10000).toString());} else // If more than 3k and less than 150k, we round to nearest 10k and log that
+	{trackGtagEvent('numbersAfterCalculation', 'salary', (round(salary/100000, 0)*100000).toString());}  // If more than 150k, we round to nearest 100k and log that
+
+
+	if (companyValue < 0) {trackGtagEvent('numbersAfterCalculation', 'companyValue', 'negative');} else
+	if (companyValue <= 100000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', 'lessThan100k');} else
+	if (companyValue <= 500000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '100to500k');} else
+	if (companyValue <= 1000000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '500kTo1mln');} else
+	if (companyValue <= 5000000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '1to5mln');} else
+	if (companyValue <= 10000000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '5to10mln');} else
+	if (companyValue <= 20000000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '10to20mln');} else
+	if (companyValue <= 50000000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '20to50mln');} else
+	if (companyValue <= 100000000) {trackGtagEvent('numbersAfterCalculation', 'companyValue', '50to100mln');}
+	else {trackGtagEvent('numbersAfterCalculation', 'companyValue', (round(companyValue/100000000, 0)*1000000).toString()+'mln');}  // If more than 100mln, we round to nearest 100mln and log that
+
+	if (vMultiplier*100 < 0) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', 'negative');} else
+	if (vMultiplier*100 <= 0.5) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', 'lessThanPoint5');} else
+	if (vMultiplier*100 <= 1) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', 'PointFiveTo1');} else
+	if (vMultiplier*100 <= 5) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', '1to5');} else
+	if (vMultiplier*100 <= 10) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', '5to10');} else
+	if (vMultiplier*100 <= 15) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', '10to15');} else
+	if (vMultiplier*100 <= 20) {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', '15to20');}
+	else {trackGtagEvent('numbersAfterCalculation', 'vMultiplier', (round(vMultiplier*100/10, 0)*10).toString());}  // If more than 20pct, we round to nearest 10 and log that
 
 	trackGtagEvent('CalculateButtonClick', 'SuccessfulCalculationPerformed');
 
