@@ -108,29 +108,12 @@
                 </div>
               </div>
 
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse4"><i class="fas fa-plus"></i> The calculator gave me a negative number. What does that mean?</a>
-                  </h4>
-                </div>
-                <div id="collapse4" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <p>If the calculator computes a negative number for equity, salary, or company valuation, it's essentially telling you that the company will lose money on this hire.  For example, if the calculator computes a negative number for equity, it's telling you that the employee should not receive any equity, because the salary you specified is already more than this employee deserves.</p>
 
-                    <p>In that case, to justify their hiring, the employee should either take a lower salary, or they need to bring more value to the company (which would be reflected in the equation as a higher valuation multiplier).  You could also try reducing the "salary multiplier" or "company's profit" advanced parameters.</p>
-
-                    <p>Likewise, if the calculator computes a negative number for salary, it's telling you that the employee is already being paid more than they're worth in equity, and they would effectively need to <em>pay money to the company</em> to justify getting that equity.</p>
-
-                    <p>Getting a negative number for the company valuation means something a little different.  It specifically means that the employee is being given too much equity - more than their valuation multiplier could ever justify, no matter how valuable the company is.</p>
-                  </div>
-                </div>
-              </div>
 
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse5"><i class="fas fa-plus"></i> What are some shortcomings of the Equity Equation?</a>
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse4"><i class="fas fa-plus"></i> What are some shortcomings of the Equity Equation?</a>
                   </h4>
                 </div>
                 <div id="collapse4" class="panel-collapse collapse">
@@ -149,12 +132,15 @@
             <p>The equation involves the 4 variables below.  By providing any 3 of these numbers, you can solve for the 4th number.</p>
             
 
+            <a name="topOfCalculator"></a>
+
             <h3>Which number would you like to calculate?</h3>
+
 
             <br>
 
 
-            <div> <a name="topOfCalculator"></a>
+            <div> 
 
               <table id=inputTable>
               
@@ -168,7 +154,7 @@
                     <table>
                       <tr><td><h4>EQUITY</h4> <small><a data-toggle="collapse" data-target="#equityCollapse" class="variableExplainerLink">What's this?</a></small></td></tr>
                       <tr><td>
-                        <div id="equityCollapse" class="collapse out expandableTooltip variableExplainer">
+                        <div id="equityCollapse" class="collapse in expandableTooltip variableExplainer" style="color:black;">
                           The percentage of the company that will/should be given to the new employee.
                         </div>
                       </td></tr>
@@ -203,7 +189,7 @@
 
                       <tr><td><h4>ANNUAL SALARY</h4> <small><a data-toggle="collapse" data-target="#salaryCollapse" class="variableExplainerLink">What's this?</a></small></td></tr>
                       <tr><td>
-                        <div id="salaryCollapse" class="collapse out expandableTooltip variableExplainer">
+                        <div id="salaryCollapse" class="collapse in expandableTooltip variableExplainer" style="color:black;">
                           The amount of cash you (or your new hire) will be paid annually.
                         </div>
                       </td></tr>
@@ -237,7 +223,7 @@
 
                       <tr><td><h4>VALUATION OF COMPANY</h4> <small><a data-toggle="collapse" data-target="#valueCollapse" class="variableExplainerLink">What's this?</a></small></td></tr>
                       <tr><td>
-                        <div id="valueCollapse" class="collapse out expandableTooltip variableExplainer">
+                        <div id="valueCollapse" class="collapse in expandableTooltip variableExplainer" style="color:black;">
                           How much money the company is currently worth.
                         </div>
                       </td></tr>
@@ -270,7 +256,7 @@
 
                       <tr><td><h4>THE NEW HIRE'S "VALUATION MULTIPLIER"</h4> <small><a data-toggle="collapse" data-target="#vMultCollapse" class="variableExplainerLink">What's this?</a></small></td></tr>
                       <tr><td>
-                        <div id="vMultCollapse" class="collapse out expandableTooltip variableExplainer">
+                        <div id="vMultCollapse" class="collapse in expandableTooltip variableExplainer" style="color:black;">
                           By what percentage will the company's valuation increase due to hiring this person?  
 
                           <a data-toggle="collapse" data-target="#demo">Click here for more.</a>
@@ -315,6 +301,28 @@
               </div>
 
               <br>
+
+
+              <div class="panel-group hiddenCell" id="negativeAccordion">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#negativeAccordion" href="#negativeAcc"><i class="fas fa-plus"></i> The calculator gave me a negative number. What does that mean?</a>
+                    </h4>
+                  </div>
+                  <div id="negativeAcc" class="panel-collapse collapse">
+                    <div class="panel-body">
+                      <p>If the calculator computes a negative number for equity, salary, or company valuation, it's essentially telling you that the company will lose money on this hire.  For example, if the calculator computes a negative number for equity, it's telling you that the employee should not receive any equity, because the salary you specified is already more than this employee deserves.</p>
+
+                      <p>In that case, to justify their hiring, the employee should either take a lower salary, or they need to bring more value to the company (which would be reflected in the equation as a higher valuation multiplier).  You could also try reducing the "salary multiplier" or "company's profit" advanced parameters.</p>
+
+                      <p>Likewise, if the calculator computes a negative number for salary, it's telling you that the employee is already being paid more than they're worth in equity, and they would effectively need to <em>pay money to the company</em> to justify getting that equity.</p>
+
+                      <p>Getting a negative number for the company valuation means something a little different.  It specifically means that the employee is being given too much equity - more than their valuation multiplier could ever justify, no matter how valuable the company is.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <button type="button" class="btn btn-success btn-block" id=calculateButton>Calculate!</button>
 
@@ -406,7 +414,6 @@
     </div> <!-- /container -->
 
     <script type="text/javascript" src="grahamEqScript.js"></script>
-    <script type="text/javascript" src="algebra-0.2.6.min.js"></script>
 
   </body>
 </html>

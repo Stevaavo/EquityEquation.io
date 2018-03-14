@@ -136,6 +136,13 @@ vMultiplierRadio.addEventListener("click", outputRadioClickHandler);
 // This function greys out and puts a background behind the proper input box every time a radio button is clicked.
 function outputRadioClickHandler() {
 
+	
+
+	// Collapse all tooltips on the first radio click
+	if (beingViewedOnMobile && !hasTheUserChosenAnOutput) {
+		$(".expandableTooltip").collapse('hide')
+	}
+
 	hasTheUserChosenAnOutput = true; // Permanently changing this flag now that one of the radio buttons has been clicked.
 
 	// We iterate over all the radio buttons and permanently remove the glow effects that previously highlighted them.
@@ -606,10 +613,15 @@ function solveGrahamEquation(verboseErrors) {
 		allInputGroups[i].classList.remove('hiddenPara') // Unhide all the input boxes
 	}
 
-	// Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+	// If we're on a mobile device, scroll the full calculator input table into view, and hide all variable explainers
+	if (beingViewedOnMobile) {
+		document.querySelector('#inputTable').scrollIntoView();
+		$(".expandableTooltip").collapse('hide')
+	}
+	
 	
 
-	
+	var calculatedVar = null; // This will be filled with whatever value we compute, so that the tooltip explaining negative numbers can be unhidden if a negative number is calculated
 
 	// run this version of the equuation if the 'equity' button is checked
 	if (equityRadio.checked) {
@@ -619,7 +631,9 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(equityNumBox);
 		equityNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		equityNumBox.classList.remove('thisNumberNotComputed');
-		equityNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+		// equityNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+
+		calculatedVar = equity;
 
 		if (equity*100 < 0) {trackGtagEvent('computedNumber', 'equity', 'negative');} else
 		if (equity*100 <= 0.5) {trackGtagEvent('computedNumber', 'equity', 'lessThanPoint5');} else
@@ -637,7 +651,9 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(salaryNumBox);
 		salaryNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		salaryNumBox.classList.remove('thisNumberNotComputed');
-		salaryNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+		// salaryNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+
+		calculatedVar = salary;
 
 		if (salary < 0) {trackGtagEvent('computedNumber', 'salary', 'negative');} else
 		if (salary <= 10000) {trackGtagEvent('computedNumber', 'salary', 'lessThan10k');} else
@@ -654,7 +670,9 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(valueNumBox);
 		valueNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		valueNumBox.classList.remove('thisNumberNotComputed');
-		valueNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+		// valueNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+
+		calculatedVar = companyValue;
 
 		if (companyValue < 0) {trackGtagEvent('computedNumber', 'companyValue', 'negative');} else
 		if (companyValue <= 100000) {trackGtagEvent('computedNumber', 'companyValue', 'lessThan100k');} else
@@ -674,8 +692,10 @@ function solveGrahamEquation(verboseErrors) {
 		pulseElement(vMultiplierBox);
 		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		vMultiplierBox.classList.remove('thisNumberNotComputed');
-		vMultiplierBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
+		// vMultiplierBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
 	
+		calculatedVar = vMultiplier;
+
 		if (vMultiplier*100 < 0) {trackGtagEvent('computedNumber', 'vMultiplier', 'negative');} else
 		if (vMultiplier*100 <= 0.5) {trackGtagEvent('computedNumber', 'vMultiplier', 'lessThanPoint5');} else
 		if (vMultiplier*100 <= 1) {trackGtagEvent('computedNumber', 'vMultiplier', 'PointFiveTo1');} else
@@ -729,6 +749,10 @@ function solveGrahamEquation(verboseErrors) {
 	trackGtagEvent('CalculateButtonClick', 'SuccessfulCalculationPerformed');
 
 	formatInputBoxes('all');
+
+	if (calculatedVar < 0) {
+		$('#negativeAccordion').slideDown();
+	}
 
 }
 
