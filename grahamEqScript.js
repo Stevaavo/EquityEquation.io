@@ -36,6 +36,8 @@ var vMultiplier = null;
 var salaryMultiplier = null;
 var companyProfit = null;
 
+var beingViewedOnMobile = true;
+
 // calling out the error text box
 var errorTextBox = document.querySelector('#errorTextBox');
 
@@ -62,6 +64,15 @@ var trackGtagEvent = function(eventCategory = 'noCatSpecified', eventAction = 'n
     'transport_type': 'beacon'
   });
 }
+
+
+// We check if the user is on a mobile-size screen.  If not, we get rid of some the space-saving collapsible text that explains the different equation variables.
+if ( $(window).width() > 739) {      
+	beingViewedOnMobile = false;
+	$('.variableExplainerLink').addClass('hiddenCell');
+	$('.variableExplainer').removeClass('collapse out expandableTooltip');
+} 
+
 
 
 // This function causes an element to "pulse" green.  It is used when the javascript fills in valus (after calculating or resetting parameters to defaults)
