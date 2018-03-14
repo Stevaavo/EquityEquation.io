@@ -205,7 +205,7 @@ function inputBoxChangeHandler() {
 				allInputBoxesIncludingAdvancedParams[q].classList.add('thisNumberNotComputed')
 				turnRecalcParaOn(q, true);
 			}
-			else
+			
 			allInputBoxesIncludingAdvancedParams[q].classList.remove('thisNumberWasComputed') // Automatically remove all bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
 			
 		}
@@ -638,7 +638,7 @@ function solveGrahamEquation(verboseErrors) {
 		equity = (1 - (1/(1 + vMultiplier)))/(1+companyProfit) - salary*(salaryMultiplier+1)/companyValue;
 
 		equityNumBox.value = round(equity*100, 3);
-		pulseElement(equityNumBox);
+		// pulseElement(equityNumBox);
 		equityNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		equityNumBox.classList.remove('thisNumberNotComputed');
 		// equityNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
@@ -658,7 +658,7 @@ function solveGrahamEquation(verboseErrors) {
 		salary = (equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*companyValue*-1/(1+salaryMultiplier);
 
 		salaryNumBox.value = round(salary, 0);
-		pulseElement(salaryNumBox);
+		// pulseElement(salaryNumBox);
 		salaryNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		salaryNumBox.classList.remove('thisNumberNotComputed');
 		// salaryNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
@@ -677,7 +677,7 @@ function solveGrahamEquation(verboseErrors) {
 		companyValue = 1/(equity - (1 - (1/(1 + vMultiplier)))/(1+companyProfit))*-1*salary*(1+salaryMultiplier);
 
 		valueNumBox.value = round(companyValue, 0);
-		pulseElement(valueNumBox);
+		// pulseElement(valueNumBox);
 		valueNumBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		valueNumBox.classList.remove('thisNumberNotComputed');
 		// valueNumBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.
@@ -699,7 +699,7 @@ function solveGrahamEquation(verboseErrors) {
 		vMultiplier = 1/(((equity + salary*(salaryMultiplier+1)/companyValue)*(companyProfit+1) - 1)*(-1))-1;
 
 		vMultiplierBox.value = round(vMultiplier*100, 2);
-		pulseElement(vMultiplierBox);
+		// pulseElement(vMultiplierBox);
 		vMultiplierBox.classList.add('thisNumberWasComputed'); // Basically just makes computed text bold, to make it clear that it wasn't typed by the user, it was actually calculated.
 		vMultiplierBox.classList.remove('thisNumberNotComputed');
 		// vMultiplierBox.scrollIntoView(); // Have the page scroll up to the computed box, so that the user can see we're filling in a number for them.  This is important for mobile devices and other small screens, where the user might hit "calculate" and think nothing happened.

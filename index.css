@@ -163,6 +163,9 @@ td {
 
 .thisNumberWasComputed {
   font-weight: bold;
+
+  animation: pulse 3s infinite;
+
 }
 
 .thisNumberNotComputed {
