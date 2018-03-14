@@ -69,9 +69,10 @@ var trackGtagEvent = function(eventCategory = 'noCatSpecified', eventAction = 'n
 // We check if the user is on a mobile-size screen.  If not, we get rid of some the space-saving collapsible text that explains the different equation variables.
 if ( $(window).width() > 739) {      
 	beingViewedOnMobile = false;
-	$('.variableExplainerLink').addClass('hiddenCell');
 	$('.variableExplainer').removeClass('collapse out expandableTooltip');
 } 
+$('.variableExplainerLink').addClass('hiddenCell'); // Regardless of whether this is a mobile device, we start by hiding the explainer links, and only show them on mobile devices after we collapse all the explanations for the first time.
+
 
 
 
@@ -102,6 +103,14 @@ function fillExampleNumbers() {
 	valueNumBox.value = "10,000,000";
 	vMultiplierBox.value = "10";
 	// solveGrahamEquation(false);
+
+	$("#collapse3").collapse('hide');
+
+	// if (beingViewedOnMobile) {
+	// 	document.querySelector('#inputTable').scrollIntoView();
+	// }
+
+
 	trackGtagEvent('FeatureUsed', 'FilledExampleNumbers');
 
 }
@@ -137,11 +146,11 @@ vMultiplierRadio.addEventListener("click", outputRadioClickHandler);
 function outputRadioClickHandler() {
 
 	
-
-	// Collapse all tooltips on the first radio click
-	if (beingViewedOnMobile && !hasTheUserChosenAnOutput) {
-		$(".expandableTooltip").collapse('hide')
-	}
+// I'm commenting this code out because the explanations are probably still helpful up until the first time the user clicks "calculate," and this code is run at that point anyway.
+	// // Collapse all tooltips on the first radio click
+	// if (beingViewedOnMobile && !hasTheUserChosenAnOutput) {
+	// 	$(".expandableTooltip").collapse('hide')
+	// }
 
 	hasTheUserChosenAnOutput = true; // Permanently changing this flag now that one of the radio buttons has been clicked.
 
@@ -616,7 +625,8 @@ function solveGrahamEquation(verboseErrors) {
 	// If we're on a mobile device, scroll the full calculator input table into view, and hide all variable explainers
 	if (beingViewedOnMobile) {
 		document.querySelector('#inputTable').scrollIntoView();
-		$(".expandableTooltip").collapse('hide')
+		$('.variableExplainerLink').slideDown(500);
+		$(".expandableTooltip").collapse('hide');
 	}
 	
 	
