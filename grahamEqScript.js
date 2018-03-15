@@ -70,7 +70,9 @@ var trackGtagEvent = function(eventCategory = 'noCatSpecified', eventAction = 'n
 if ( $(window).width() > 739) {      
 	beingViewedOnMobile = false;
 	$('.variableExplainer').removeClass('collapse out expandableTooltip');
-} 
+} else {
+	$('.header').addClass('hiddenCell'); // We hide the header on mobile devices, because something about the small screens makes it look repetitive above the jumbotron.
+}
 $('.variableExplainerLink').addClass('hiddenCell'); // Regardless of whether this is a mobile device, we start by hiding the explainer links, and only show them on mobile devices after we collapse all the explanations for the first time.
 
 
@@ -205,7 +207,7 @@ function inputBoxChangeHandler() {
 				allInputBoxesIncludingAdvancedParams[q].classList.add('thisNumberNotComputed')
 				turnRecalcParaOn(q, true);
 			}
-			
+
 			allInputBoxesIncludingAdvancedParams[q].classList.remove('thisNumberWasComputed') // Automatically remove all bold text from calculated numbers if the user starts tinkering with variables, to indicate that the number is no longer accurate
 			
 		}
